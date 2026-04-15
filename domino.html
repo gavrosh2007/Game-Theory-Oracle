@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Настройка фона — покажет цифры</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #F48D01;
+            min-height: 100vh;
+            position: relative;
+        }
+        .domino, .graph {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .domino {
+            background-image: url('domino.png');
+        }
+        .graph {
+            background-image: url('graph.png');
+            z-index: 2;
+        }
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.85);
+            color: #eee;
+            padding: 15px;
+            border-radius: 12px;
+            font-family: monospace;
+            font-size: 13px;
+            z-index: 3;
+            width: 300px;
+            backdrop-filter: blur(4px);
+            border: 1px solid #F48D01;
+        }
+        .controls div {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        label {
+            width: 90px;
+        }
+        input {
+            flex: 2;
+            min-width: 140px;
+        }
+        .value {
+            width: 45px;
+            text-align: right;
+            font-weight: bold;
+        }
+        hr {
+            margin: 10px 0;
+            border-color: #F48D01;
+        }
+        h4 {
+            margin-bottom: 8px;
+            color: #F48D01;
+        }
+    </style>
+</head>
+<body>
+    <div class="domino" id="domino"></div>
+    <div class="graph" id="graph"></div>
+    <div class="controls" id="controls">
+        <h4>Домино</h4>
+        <div><label>grayscale %</label> <input type="range" id="dom_gray" min="0" max="100" value="100"> <span id="dom_gray_val" class="value">100</span></div>
+        <div><label>brightness %</label> <input type="range" id="dom_bright" min="0" max="500" value="400"> <span id="dom_bright_val" class="value">400</span></div>
+        <div><label>contrast %</label> <input type="range" id="dom_contrast" min="0" max="300" value="70"> <span id="dom_contrast_val" class="value">70</span></div>
+        <div><label>blur px</label> <input type="range" id="dom_blur" min="0" max="20" value="5" step="0.5"> <span id="dom_blur_val" class="value">5.0</span></div>
+        <div><label>opacity</label> <input type="range" id="dom_opacity" min="0" max="1" step="0.01" value="0.4"> <span id="dom_opacity_val" class="value">0.40</span></div>
+        <hr>
+        <h4>График</h4>
+        <div><label>grayscale %</label> <input type="range" id="graph_gray" min="0" max="100" value="100"> <span id="graph_gray_val" class="value">100</span></div>
+        <div><label>brightness %</label> <input type="range" id="graph_bright" min="0" max="500" value="130"> <span id="graph_bright_val" class="value">130</span></div>
+        <div><label>contrast %</label> <input type="range" id="graph_contrast" min="0" max="300" value="120"> <span id="graph_contrast_val" class="value">120</span></div>
+        <div><label>blur px</label> <input type="range" id="graph_blur" min="0" max="20" value="6" step="0.5"> <span id="graph_blur_val" class="value">6.0</span></div>
+        <div><label>opacity</label> <input type="range" id="graph_opacity" min="0" max="1" step="0.01" value="0.45"> <span id="graph_opacity_val" class="value">0.45</span></div>
+        <hr>
+        <div style="font-size:11px; text-align:center;">Запишите значения (они показаны справа от ползунков)<br>и отправьте их мне</div>
+    </div>
+    <script>
+        function update() {
+            let dom_gray = document.getElementById('dom_gray').value;
+            let dom_bright = document.getElementById('dom_bright').value;
+            let dom_contrast = document.getElementById('dom_contrast').value;
+            let dom_blur = document.getElementById('dom_blur').value;
+            let dom_opacity = document.getElementById('dom_opacity').value;
+            let graph_gray = document.getElementById('graph_gray').value;
+            let graph_bright = document.getElementById('graph_bright').value;
+            let graph_contrast = document.getElementById('graph_contrast').value;
+            let graph_blur = document.getElementById('graph_blur').value;
+            let graph_opacity = document.getElementById('graph_opacity').value;
+
+            document.getElementById('dom_gray_val').innerText = dom_gray;
+            document.getElementById('dom_bright_val').innerText = dom_bright;
+            document.getElementById('dom_contrast_val').innerText = dom_contrast;
+            document.getElementById('dom_blur_val').innerText = parseFloat(dom_blur).toFixed(1);
+            document.getElementById('dom_opacity_val').innerText = parseFloat(dom_opacity).toFixed(2);
+            document.getElementById('graph_gray_val').innerText = graph_gray;
+            document.getElementById('graph_bright_val').innerText = graph_bright;
+            document.getElementById('graph_contrast_val').innerText = graph_contrast;
+            document.getElementById('graph_blur_val').innerText = parseFloat(graph_blur).toFixed(1);
+            document.getElementById('graph_opacity_val').innerText = parseFloat(graph_opacity).toFixed(2);
+
+            document.getElementById('domino').style.filter = `grayscale(${dom_gray}%) brightness(${dom_bright}%) contrast(${dom_contrast}%) blur(${dom_blur}px)`;
+            document.getElementById('domino').style.opacity = dom_opacity;
+            document.getElementById('graph').style.filter = `grayscale(${graph_gray}%) brightness(${graph_bright}%) contrast(${graph_contrast}%) blur(${graph_blur}px)`;
+            document.getElementById('graph').style.opacity = graph_opacity;
+        }
+        const sliders = document.querySelectorAll('input');
+        sliders.forEach(s => s.addEventListener('input', update));
+        update();
+    </script>
+</body>
+</html>
