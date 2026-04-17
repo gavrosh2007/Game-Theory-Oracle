@@ -40,6 +40,25 @@
             transition: background 0.3s;
         }
         .retry-btn:hover { background: #000000; color: #b0d9b1; }
+        .contacts {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(176,217,177,0.3);
+        }
+        .contacts a {
+            color: #b0d9b1;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+        .contacts a:hover { opacity: 0.8; text-decoration: underline; }
+        .check-status {
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.5);
+        }
     </style>
 </head>
 <body>
@@ -48,9 +67,28 @@
         <h1>Нет соединения</h1>
         <p>Проверьте подключение к интернету.<br>Как только связь восстановится, приложение продолжит работу.</p>
         <button class="retry-btn" onclick="location.reload()">⟳ Попробовать снова</button>
+        
+        <div class="contacts">
+            <a href="https://t.me/faufautua" target="_blank">📱 Telegram</a>
+            <a href="mailto:gavrosh2007@gmail.com">✉️ Email</a>
+        </div>
+        <div class="check-status" id="statusCheck">⏳ Проверка соединения...</div>
     </div>
+
     <script>
-        setInterval(() => { if (navigator.onLine) location.reload(); }, 5000);
+        const statusDiv = document.getElementById('statusCheck');
+        let checkCount = 0;
+        
+        const interval = setInterval(() => {
+            checkCount++;
+            if (navigator.onLine) {
+                statusDiv.innerHTML = '✅ Соединение восстановлено! Перезагрузка...';
+                clearInterval(interval);
+                setTimeout(() => location.reload(), 500);
+            } else {
+                statusDiv.innerHTML = `⏳ Нет соединения... проверка ${checkCount}`;
+            }
+        }, 3000);
     </script>
 </body>
 </html>

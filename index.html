@@ -70,17 +70,29 @@
             margin: 0 auto;
         }
 
+        /* PWA кнопка — как в Hermes */
         .install-area {
             text-align: center;
-            margin-bottom: 1rem;
+            margin: 0 0 1.5rem 0;
+        }
+        .install-tooltip {
+            position: relative;
+            display: inline-block;
         }
         .pwa-icon-btn {
             background: none;
             border: none;
             cursor: pointer;
             padding: 0;
-            display: inline-block;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             transition: transform 0.2s;
+            gap: 0.3rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #000000;
         }
         .pwa-icon-btn img {
             width: 96px;
@@ -94,6 +106,29 @@
         .pwa-icon-btn:active {
             transform: scale(0.95);
         }
+        .tooltip-text {
+            visibility: hidden;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            font-size: 0.8rem;
+            font-weight: normal;
+        }
+        .install-tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
         .install-note {
             margin-top: 0.5rem;
             color: #000000;
@@ -103,6 +138,20 @@
             display: inline-block;
             padding: 0.3rem 1rem;
             border-radius: 50px;
+        }
+        @media (max-width: 600px) {
+            .pwa-icon-btn img {
+                width: 64px;
+                height: 64px;
+            }
+            .pwa-icon-btn {
+                font-size: 0.8rem;
+            }
+            .tooltip-text {
+                white-space: normal;
+                width: 200px;
+                bottom: 130%;
+            }
         }
 
         .ask-btn {
@@ -351,10 +400,6 @@
             .hero h1 {
                 font-size: 2rem;
             }
-            .pwa-icon-btn img {
-                width: 64px;
-                height: 64px;
-            }
         }
     </style>
 </head>
@@ -366,12 +411,16 @@
 
 <div class="container">
     <div class="install-area">
-        <button id="pwa-install-icon" class="pwa-icon-btn">
-            <img src="icon-192x192.png" alt="Установить приложение" width="96" height="96"
-                 onerror="this.style.display='none'; this.parentNode.querySelector('.fallback-text').style.display='inline-block';">
-            <span class="fallback-text" style="display:none;">📱</span>
-        </button>
-        <div class="install-note note-pwa" id="installNote">✅ Нажмите на иконку, чтобы установить приложение</div>
+        <div class="install-tooltip">
+            <button id="pwa-install-icon" class="pwa-icon-btn">
+                <img src="icon-192x192.png" alt="Установить приложение" width="96" height="96"
+                     onerror="this.style.display='none'; this.parentNode.querySelector('.fallback-text').style.display='inline-block';">
+                <span class="fallback-text" style="display:none;">📱</span>
+                <span id="pwaButtonText">Установить</span>
+            </button>
+            <span class="tooltip-text" id="pwaTooltip">💡 Нажмите — установите как приложение.<br>• Chrome/Edge: появится диалог.<br>• iPhone: Поделиться → На экран «Домой».</span>
+        </div>
+        <div class="install-note" id="installNote">✅ Нажмите на иконку монитора со стрелкой в адресной строке, чтобы установить приложение. На iPhone: Поделиться → На экран «Домой».</div>
     </div>
 
     <div class="lang-switch">
@@ -475,13 +524,24 @@
 </div>
 
 <script>
-    // -------------------- PWA УСТАНОВКА (РАБОЧАЯ, КАК В ПЕРВОМ САЙТЕ) --------------------
+    // -------------------- PWA УСТАНОВКА (КАК В HERMES - РАБОЧАЯ) --------------------
     let deferredPrompt;
+    
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
         console.log('PWA ready to install');
+        // Показываем кнопку (она и так видна)
     });
+    
+    // Функция с подсказкой как в Hermes
+    window.showPWAInstructions = function() {
+        const lang = document.querySelector('.lang-btn.active')?.dataset.lang || 'ru';
+        let msg = '';
+        if (lang === 'ru') msg = 'Для установки приложения:\n\n• На компьютере: нажмите на иконку монитора со стрелкой в адресной строке.\n• На iPhone: нажмите "Поделиться" → "На экран «Домой»".\n• На Android: нажмите на иконку монитора со стрелкой в адресной строке.';
+        else msg = 'To install the app:\n\n• On computer: click the monitor icon with a down arrow in the address bar.\n• On iPhone: tap "Share" → "Add to Home Screen".\n• On Android: tap the monitor icon with a down arrow in the address bar.';
+        alert(msg);
+    };
     
     const pwaButton = document.getElementById('pwa-install-icon');
     if (pwaButton) {
@@ -492,12 +552,25 @@
                 console.log(`PWA install: ${outcome}`);
                 deferredPrompt = null;
             } else {
-                const lang = document.querySelector('.lang-btn.active')?.dataset.lang || 'ru';
-                alert(lang === 'ru' 
-                    ? 'Для установки: Chrome → меню → "Установить приложение" | Safari → Поделиться → "На экран Домой"'
-                    : 'To install: Chrome → menu → "Install app" | Safari → Share → "Add to Home Screen"');
+                showPWAInstructions();
             }
         });
+    }
+
+    // Обновление текстов PWA кнопки при смене языка
+    function updatePWATexts(lang) {
+        const btnText = document.getElementById('pwaButtonText');
+        const tooltip = document.getElementById('pwaTooltip');
+        const installNote = document.getElementById('installNote');
+        if (lang === 'ru') {
+            if (btnText) btnText.textContent = 'Установить';
+            if (tooltip) tooltip.innerHTML = '💡 Нажмите — установите как приложение.<br>• Chrome/Edge: появится диалог.<br>• iPhone: Поделиться → На экран «Домой».';
+            if (installNote) installNote.innerHTML = '✅ Нажмите на иконку монитора со стрелкой в адресной строке, чтобы установить приложение. На iPhone: Поделиться → На экран «Домой».';
+        } else {
+            if (btnText) btnText.textContent = 'Install';
+            if (tooltip) tooltip.innerHTML = '💡 Click — install as app.<br>• Chrome/Edge: dialog appears.<br>• iPhone: Share → Add to Home Screen.';
+            if (installNote) installNote.innerHTML = '✅ Click the monitor icon with a down arrow in the address bar to install the app. On iPhone: Share → Add to Home Screen.';
+        }
     }
 
     // -------------------- МОДАЛЬНОЕ ОКНО --------------------
@@ -587,16 +660,14 @@
     });
 
     // -------------------- ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ --------------------
-    const translations = {
+    const translationsModal = {
         ru: {
-            note: '✅ Нажмите на иконку, чтобы установить приложение',
             modalTitle: '🤔 Задайте свой вопрос',
             submitBtn: '🔮 Получить анализ',
             answerTitle: '📊 Анализ на основе теории игр:',
             closeBtn: '✖ Закрыть'
         },
         en: {
-            note: '✅ Click the icon to install the app',
             modalTitle: '🤔 Ask your question',
             submitBtn: '🔮 Get analysis',
             answerTitle: '📊 Game theory analysis:',
@@ -604,13 +675,13 @@
         }
     };
     
-    function updateUI(lang) {
-        document.querySelectorAll('.note-pwa').forEach(el => el.textContent = translations[lang].note);
-        document.getElementById('modalTitle').textContent = translations[lang].modalTitle;
-        document.getElementById('submitQuestion').textContent = translations[lang].submitBtn;
-        document.getElementById('answerTitle').textContent = translations[lang].answerTitle;
+    function updateUILang(lang) {
+        document.getElementById('modalTitle').textContent = translationsModal[lang].modalTitle;
+        document.getElementById('submitQuestion').textContent = translationsModal[lang].submitBtn;
+        document.getElementById('answerTitle').textContent = translationsModal[lang].answerTitle;
         const closeBtn = document.getElementById('closeModalBtn');
-        if (closeBtn) closeBtn.textContent = translations[lang].closeBtn;
+        if (closeBtn) closeBtn.textContent = translationsModal[lang].closeBtn;
+        updatePWATexts(lang);
     }
 
     const ruDiv = document.getElementById('ru-content');
@@ -627,10 +698,10 @@
             }
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            updateUI(lang);
+            updateUILang(lang);
         });
     });
-    updateUI('ru');
+    updateUILang('ru');
 
     // -------------------- КВИЗЫ --------------------
     const answers = { '1': 'c', '2': 'c', '1-en': 'c', '2-en': 'c' };
@@ -655,11 +726,12 @@
         });
     });
 
-    // -------------------- РЕГИСТРАЦИЯ SERVICE WORKER (PWA) --------------------
+    // -------------------- РЕГИСТРАЦИЯ SERVICE WORKER (ПРАВИЛЬНЫЙ ПУТЬ) --------------------
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-                .then(reg => console.log('✅ Service Worker registered:', reg))
+            // Для GitHub Pages в подпапке репозитория — регистрируем относительно корня сайта
+            navigator.serviceWorker.register('/Game-Theory-Oracle/sw.js', { scope: '/Game-Theory-Oracle/' })
+                .then(reg => console.log('✅ Service Worker registered:', reg.scope))
                 .catch(err => console.log('❌ Service Worker error:', err));
         });
     }

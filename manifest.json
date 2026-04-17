@@ -1,5 +1,24 @@
 {
-  "name": "Теория игр",
+  "name": "Теория игр — взвешенные решения",
   "short_name": "Game Theory",
-  "start_url": "./",
-  "
+  "start_url": "/Game-Theory-Oracle/index.html",
+  "scope": "/Game-Theory-Oracle/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "theme_color": "#F48D01",
+  "background_color": "#F48D01",
+  "icons": [
+    {
+      "src": "/Game-Theory-Oracle/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/Game-Theory-Oracle/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

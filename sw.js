@@ -1,13 +1,15 @@
 const CACHE_NAME = 'gametheory-v2';
+const BASE_PATH = '/Game-Theory-Oracle/';
+
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/offline.html',
-  '/manifest.json',
-  '/icon-192x192.png',
-  '/icon-512x512.png',
-  '/domino.png',
-  '/graph.png'
+  BASE_PATH,
+  BASE_PATH + 'index.html',
+  BASE_PATH + 'offline.html',
+  BASE_PATH + 'manifest.json',
+  BASE_PATH + 'icon-192x192.png',
+  BASE_PATH + 'icon-512x512.png',
+  BASE_PATH + 'domino.png',
+  BASE_PATH + 'graph.png'
 ];
 
 self.addEventListener('install', event => {
@@ -27,7 +29,7 @@ self.addEventListener('fetch', event => {
         }
         return fetch(event.request).catch(() => {
           if (event.request.mode === 'navigate') {
-            return caches.match('/offline.html');
+            return caches.match(BASE_PATH + 'offline.html');
           }
           return new Response('Offline content not available', {
             status: 503,
