@@ -371,7 +371,7 @@
                  onerror="this.style.display='none'; this.parentNode.querySelector('.fallback-text').style.display='inline-block';">
             <span class="fallback-text" style="display:none;">📱</span>
         </button>
-        <div class="install-note note-pwa">✅ Нажмите на иконку, чтобы установить приложение. iPhone: Поделиться → На экран «Домой».</div>
+        <div class="install-note note-pwa" id="installNote">✅ Нажмите на иконку, чтобы установить приложение</div>
     </div>
 
     <div class="lang-switch">
@@ -475,22 +475,32 @@
 </div>
 
 <script>
+    // -------------------- PWA УСТАНОВКА (РАБОЧАЯ, КАК В ПЕРВОМ САЙТЕ) --------------------
     let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
+        console.log('PWA ready to install');
     });
-    document.getElementById('pwa-install-icon')?.addEventListener('click', async () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            await deferredPrompt.userChoice;
-            deferredPrompt = null;
-        } else {
-            const lang = document.querySelector('.lang-btn.active')?.dataset.lang || 'ru';
-            alert(lang === 'ru' ? 'Для установки: Chrome → три точки → "Установить приложение"' : 'To install: Chrome → three dots → "Install app"');
-        }
-    });
+    
+    const pwaButton = document.getElementById('pwa-install-icon');
+    if (pwaButton) {
+        pwaButton.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`PWA install: ${outcome}`);
+                deferredPrompt = null;
+            } else {
+                const lang = document.querySelector('.lang-btn.active')?.dataset.lang || 'ru';
+                alert(lang === 'ru' 
+                    ? 'Для установки: Chrome → меню → "Установить приложение" | Safari → Поделиться → "На экран Домой"'
+                    : 'To install: Chrome → menu → "Install app" | Safari → Share → "Add to Home Screen"');
+            }
+        });
+    }
 
+    // -------------------- МОДАЛЬНОЕ ОКНО --------------------
     const modal = document.getElementById('questionModal');
     const askBtn = document.getElementById('askQuestionBtn');
     const askBtnEn = document.getElementById('askQuestionBtnEn');
@@ -508,6 +518,7 @@
     }));
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
 
+    // -------------------- АНАЛИЗ ВОПРОСОВ --------------------
     function analyzeQuestion(question) {
         const q = question.toLowerCase();
         
@@ -575,16 +586,17 @@
         answerArea.classList.add('active');
     });
 
+    // -------------------- ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ --------------------
     const translations = {
         ru: {
-            note: '✅ Нажмите на иконку, чтобы установить приложение. iPhone: Поделиться → На экран «Домой».',
+            note: '✅ Нажмите на иконку, чтобы установить приложение',
             modalTitle: '🤔 Задайте свой вопрос',
             submitBtn: '🔮 Получить анализ',
             answerTitle: '📊 Анализ на основе теории игр:',
             closeBtn: '✖ Закрыть'
         },
         en: {
-            note: '✅ Click the icon to install the app. iPhone: Share → Add to Home Screen.',
+            note: '✅ Click the icon to install the app',
             modalTitle: '🤔 Ask your question',
             submitBtn: '🔮 Get analysis',
             answerTitle: '📊 Game theory analysis:',
@@ -620,6 +632,7 @@
     });
     updateUI('ru');
 
+    // -------------------- КВИЗЫ --------------------
     const answers = { '1': 'c', '2': 'c', '1-en': 'c', '2-en': 'c' };
     const feedbackMsg = {
         '1': { ru: '✅ Верно! Стратегия «зуб за зуб» — самая устойчивая.', en: '✅ Correct! Tit-for-tat is the most stable.' },
@@ -642,6 +655,7 @@
         });
     });
 
+    // -------------------- РЕГИСТРАЦИЯ SERVICE WORKER (PWA) --------------------
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js')
