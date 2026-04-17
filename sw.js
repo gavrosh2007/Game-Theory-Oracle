@@ -1,14 +1,13 @@
-const CACHE_NAME = 'gametheory-v1';
+const CACHE_NAME = 'gametheory-v2';
 const urlsToCache = [
-  './',
-  './index.html',
-  './offline.html',
-  './manifest.json',
-  './icon-192x192.png',
-  './icon-512x512.png',
-  './domino.png',
-  './graph.png',
-  'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700;800&display=swap'
+  '/',
+  '/index.html',
+  '/offline.html',
+  '/manifest.json',
+  '/icon-192x192.png',
+  '/icon-512x512.png',
+  '/domino.png',
+  '/graph.png'
 ];
 
 self.addEventListener('install', event => {
@@ -28,7 +27,7 @@ self.addEventListener('fetch', event => {
         }
         return fetch(event.request).catch(() => {
           if (event.request.mode === 'navigate') {
-            return caches.match('./offline.html');
+            return caches.match('/offline.html');
           }
           return new Response('Offline content not available', {
             status: 503,

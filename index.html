@@ -70,7 +70,6 @@
             margin: 0 auto;
         }
 
-        /* PWA иконка по центру, инструкция отдельно */
         .install-area {
             text-align: center;
             margin-bottom: 1rem;
@@ -106,7 +105,6 @@
             border-radius: 50px;
         }
 
-        /* Кнопка вопроса под заголовком */
         .ask-btn {
             background: #000000;
             color: #b0d9b1;
@@ -124,7 +122,6 @@
             transform: scale(1.02);
         }
 
-        /* Кнопки языков — полупрозрачное окно как в оригинале, голубой оттенок */
         .lang-switch {
             display: flex;
             justify-content: flex-end;
@@ -315,6 +312,7 @@
             width: 100%;
             cursor: pointer;
             font-weight: bold;
+            margin-bottom: 0.5rem;
         }
         .answer-area {
             margin-top: 1rem;
@@ -325,6 +323,11 @@
         }
         .answer-area.active {
             display: block;
+        }
+        .close-modal {
+            background: transparent !important;
+            color: #ffffff !important;
+            border: 1px solid #ffffff !important;
         }
 
         footer {
@@ -362,7 +365,6 @@
 </div>
 
 <div class="container">
-    <!-- PWA иконка по центру, инструкция отдельно -->
     <div class="install-area">
         <button id="pwa-install-icon" class="pwa-icon-btn">
             <img src="icon-192x192.png" alt="Установить приложение" width="96" height="96"
@@ -377,7 +379,6 @@
         <button class="lang-btn" data-lang="en">🇬🇧 English</button>
     </div>
 
-    <!-- Русская версия -->
     <div id="ru-content" class="lang-content active">
         <div class="hero">
             <h1>Теория игр: не прямая линия, а горизонты решений</h1>
@@ -437,7 +438,6 @@
         </div>
     </div>
 
-    <!-- Английская версия -->
     <div id="en-content" class="lang-content">
         <div class="hero">
             <h1>Game Theory: not a straight line, but a horizon of choices</h1>
@@ -461,7 +461,6 @@
     <footer>© Теория игр — стратегическое мышление</footer>
 </div>
 
-<!-- Модальное окно -->
 <div id="questionModal" class="modal">
     <div class="modal-content">
         <h3 id="modalTitle">🤔 Задайте свой вопрос</h3>
@@ -471,12 +470,11 @@
             <strong id="answerTitle">📊 Анализ на основе теории игр:</strong>
             <p id="answerText"></p>
         </div>
-        <button class="close-modal">✖ Закрыть</button>
+        <button id="closeModalBtn" class="close-modal">✖ Закрыть</button>
     </div>
 </div>
 
 <script>
-    // PWA установка
     let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
@@ -493,7 +491,6 @@
         }
     });
 
-    // Модальное окно
     const modal = document.getElementById('questionModal');
     const askBtn = document.getElementById('askQuestionBtn');
     const askBtnEn = document.getElementById('askQuestionBtnEn');
@@ -511,7 +508,6 @@
     }));
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
 
-    // Генератор ответов
     function analyzeQuestion(question) {
         const q = question.toLowerCase();
         
@@ -556,33 +552,53 @@
     submitBtn.addEventListener('click', () => {
         const question = document.getElementById('questionText').value;
         if (!question.trim()) {
-            answerText.innerText = '❌ Пожалуйста, введите ваш вопрос.';
+            const lang = document.querySelector('.lang-btn.active')?.dataset.lang || 'ru';
+            answerText.innerText = lang === 'ru' ? '❌ Пожалуйста, введите ваш вопрос.' : '❌ Please enter your question.';
             answerArea.classList.add('active');
             return;
         }
-        const answer = analyzeQuestion(question);
+        const currentLang = document.querySelector('.lang-btn.active')?.dataset.lang || 'ru';
+        let answer = analyzeQuestion(question);
+        if (currentLang === 'en') {
+            answer = answer
+                .replace('⚠️ Извините, я не могу отвечать на вопросы, связанные с насилием, оружием или причинением вреда. Пожалуйста, задайте другой вопрос.', '⚠️ Sorry, I cannot answer questions about violence, weapons, or harm. Please ask another question.')
+                .replace('📈 Вероятность финансового успеха — 67%\n\nОснование: теория игр — ваша стратегия накопления и риска. Статистика: люди, задающие такие вопросы, в 2 раза чаще меняют финансовое поведение.\n\nНедостаточно данных для точного прогноза: нужны возраст, доход, инвестиции. Без этого — оценка ±15%.', '📈 Probability of financial success — 67%\n\nBasis: game theory — your saving and risk strategy.\n\nInsufficient data: age, income, investments needed.')
+                .replace('💑 Вероятность улучшения личной жизни в ближайший год — 72%\n\nОснование: теория игр — ваш запрос означает готовность к действию. Психология: люди, задающие такие вопросы, чаще меняют поведение.\n\nНедостаточно данных: нужны возраст, социальная активность.', '💑 Probability of personal life improvement in the next year — 72%\n\nInsufficient data: age, social activity needed.')
+                .replace('🕊️ Через 50 лет останется 15-20 крупных религиозных течений\n\nОснование: теория игр — конкуренция за адептов ведёт к слияниям идей. Статистика: за 100 лет число независимых религиозных течений сократилось на 40%.', '🕊️ In 50 years, 15-20 major religious movements will remain.')
+                .replace('💼 Вероятность положительных карьерных изменений — 58%\n\nОснование: теория игр — ваш вопрос говорит о рефлексии. Статистика: 70% повышений получают те, кто их явно просит.\n\nНедостаточно данных: нужны стаж, должность, отрасль.', '💼 Probability of positive career changes — 58%\n\nInsufficient data: seniority, position, industry needed.')
+                .replace('🌍 Вероятность эскалации конфликта в ближайшие 2 года — 45%\n\nОснование: теория игр — накопленные ресурсы и асимметрия информации. Логистика и энергия — главные факторы тупика.\n\nРавновесие: внешний гарант (ООН, Китай, США) — единственный выход.', '🌍 Probability of conflict escalation in the next 2 years — 45%\n\nEquilibrium: external guarantor (UN, China, US) is the only way out.')
+                .replace('🤖 Вероятность технологической сингулярности к 2050 году — 40%\n\nОснование: теория игр — гонка ИИ-компаний, каждый стремится первым. Экспоненциальный рост вычислительных мощностей.\n\nРавновесие: возможно самоограничение или гонка без тормозов.', '🤖 Probability of technological singularity by 2050 — 40%\n\nEquilibrium: possible self-restraint or uncontrolled race.')
+                .replace('❤️ Вероятность дожить до 80 лет при текущих условиях — 65%\n\nОснование: теория игр — ваше поведение (курение, спорт, питание) — доминирующие стратегии. Генетика даёт 30%, образ жизни — 50%.\n\nНедостаточно данных: нужны возраст, пол, регион.', '❤️ Probability of living to 80 under current conditions — 65%\n\nInsufficient data: age, gender, region needed.')
+                .replace('❓ Недостаточно данных для анализа.\n\nТеория игр требует определённых параметров: участники, варианты ходов, выигрыши.\n\nЧто нужно уточнить в вопросе:\n• Кто участники ситуации?\n• Какие у них возможные действия?\n• Каковы временные рамки?\n• Ваша роль в этом событии?\n\nПожалуйста, переформулируйте вопрос с указанием этих данных.', '❓ Insufficient data for analysis.\n\nGame theory requires specific parameters: players, possible moves, payoffs.\n\nPlease rephrase your question with these details.');
+        }
         answerText.innerText = answer;
         answerArea.classList.add('active');
     });
 
-    // Перевод интерфейса
     const translations = {
         ru: {
             note: '✅ Нажмите на иконку, чтобы установить приложение. iPhone: Поделиться → На экран «Домой».',
             modalTitle: '🤔 Задайте свой вопрос',
-            answerTitle: '📊 Анализ на основе теории игр:'
+            submitBtn: '🔮 Получить анализ',
+            answerTitle: '📊 Анализ на основе теории игр:',
+            closeBtn: '✖ Закрыть'
         },
         en: {
             note: '✅ Click the icon to install the app. iPhone: Share → Add to Home Screen.',
             modalTitle: '🤔 Ask your question',
-            answerTitle: '📊 Game theory analysis:'
+            submitBtn: '🔮 Get analysis',
+            answerTitle: '📊 Game theory analysis:',
+            closeBtn: '✖ Close'
         }
     };
     
     function updateUI(lang) {
         document.querySelectorAll('.note-pwa').forEach(el => el.textContent = translations[lang].note);
         document.getElementById('modalTitle').textContent = translations[lang].modalTitle;
+        document.getElementById('submitQuestion').textContent = translations[lang].submitBtn;
         document.getElementById('answerTitle').textContent = translations[lang].answerTitle;
+        const closeBtn = document.getElementById('closeModalBtn');
+        if (closeBtn) closeBtn.textContent = translations[lang].closeBtn;
     }
 
     const ruDiv = document.getElementById('ru-content');
@@ -604,7 +620,6 @@
     });
     updateUI('ru');
 
-    // Квизы
     const answers = { '1': 'c', '2': 'c', '1-en': 'c', '2-en': 'c' };
     const feedbackMsg = {
         '1': { ru: '✅ Верно! Стратегия «зуб за зуб» — самая устойчивая.', en: '✅ Correct! Tit-for-tat is the most stable.' },
@@ -626,6 +641,14 @@
             }
         });
     });
+
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => console.log('✅ Service Worker registered:', reg))
+                .catch(err => console.log('❌ Service Worker error:', err));
+        });
+    }
 </script>
 </body>
 </html>
