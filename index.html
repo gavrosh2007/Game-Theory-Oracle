@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Теория игр — взвешенные решения</title>
+    <title>HM&GO — Теория игр</title>
     
     <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Game Theory">
+    <meta name="apple-mobile-web-app-title" content="HM&GO">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#F48D01">
     
@@ -28,6 +28,21 @@
             padding: 2rem 1.5rem;
             min-height: 100vh;
             position: relative;
+        }
+
+        /* Логотип HM&GO */
+        .logo {
+            margin-bottom: 15px;
+        }
+        .logo h1 {
+            font-size: 1.8rem;
+            color: #000000;
+            font-weight: bold;
+            letter-spacing: 2px;
+            font-family: 'Courier New', 'American Typewriter', monospace;
+            background: transparent;
+            padding: 0;
+            display: inline-block;
         }
 
         .bg-layers {
@@ -410,6 +425,11 @@
 </div>
 
 <div class="container">
+    <!-- Логотип HM&GO -->
+    <div class="logo">
+        <h1>HM&GO</h1>
+    </div>
+
     <div class="install-area">
         <div class="install-tooltip">
             <button id="pwa-install-icon" class="pwa-icon-btn">
@@ -524,17 +544,15 @@
 </div>
 
 <script>
-    // -------------------- PWA УСТАНОВКА (КАК В HERMES - РАБОЧАЯ) --------------------
+    // -------------------- PWA УСТАНОВКА --------------------
     let deferredPrompt;
     
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
         console.log('PWA ready to install');
-        // Показываем кнопку (она и так видна)
     });
     
-    // Функция с подсказкой как в Hermes
     window.showPWAInstructions = function() {
         const lang = document.querySelector('.lang-btn.active')?.dataset.lang || 'ru';
         let msg = '';
@@ -557,7 +575,6 @@
         });
     }
 
-    // Обновление текстов PWA кнопки при смене языка
     function updatePWATexts(lang) {
         const btnText = document.getElementById('pwaButtonText');
         const tooltip = document.getElementById('pwaTooltip');
@@ -726,10 +743,9 @@
         });
     });
 
-    // -------------------- РЕГИСТРАЦИЯ SERVICE WORKER (ПРАВИЛЬНЫЙ ПУТЬ) --------------------
+    // -------------------- SERVICE WORKER (ПУТЬ ИЗ ВАШЕГО МАНИФЕСТА) --------------------
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            // Для GitHub Pages в подпапке репозитория — регистрируем относительно корня сайта
             navigator.serviceWorker.register('/Game-Theory-Oracle/sw.js', { scope: '/Game-Theory-Oracle/' })
                 .then(reg => console.log('✅ Service Worker registered:', reg.scope))
                 .catch(err => console.log('❌ Service Worker error:', err));

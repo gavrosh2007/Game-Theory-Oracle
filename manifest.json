@@ -1,6 +1,6 @@
 {
-  "name": "Теория игр — взвешенные решения",
-  "short_name": "Game Theory",
+  "name": "HM&GO Game Theory",
+  "short_name": "HM&GO",
   "start_url": "/Game-Theory-Oracle/index.html",
   "scope": "/Game-Theory-Oracle/",
   "display": "standalone",
