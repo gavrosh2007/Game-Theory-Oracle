@@ -3,419 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>HM&GO — Теория игр</title>
-    
-    <!-- PWA -->
+    <title>HM&amp;GO — Оракул</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="HM&GO">
+    <meta name="apple-mobile-web-app-title" content="HM&amp;GO">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#F48D01">
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: #F48D01;
-            font-family: system-ui, 'Segoe UI', 'Cormorant Garamond', serif;
-            color: #000000;
-            line-height: 1.5;
-            padding: 2rem 1.5rem;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        /* Логотип HM&GO */
-        .logo {
-            margin-bottom: 15px;
-        }
-        .logo h1 {
-            font-size: 1.8rem;
-            color: #000000;
-            font-weight: bold;
-            letter-spacing: 2px;
-            font-family: 'Courier New', 'American Typewriter', monospace;
-            background: transparent;
-            padding: 0;
-            display: inline-block;
-        }
-
-        .bg-layers {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .bg-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
-        .bg-domino {
-            background-image: url('domino.png');
-            filter: grayscale(100%) brightness(196%) contrast(300%) blur(0px);
-            opacity: 1.0;
-        }
-
-        .bg-graph {
-            background-image: url('graph.png');
-            filter: grayscale(48%) brightness(79%) contrast(300%) blur(0px);
-            opacity: 0.57;
-        }
-
-        .container {
-            position: relative;
-            z-index: 2;
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-
-        /* PWA кнопка — как в Hermes */
-        .install-area {
-            text-align: center;
-            margin: 0 0 1.5rem 0;
-        }
-        .install-tooltip {
-            position: relative;
-            display: inline-block;
-        }
-        .pwa-icon-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s;
-            gap: 0.3rem;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #000000;
-        }
-        .pwa-icon-btn img {
-            width: 96px;
-            height: 96px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .pwa-icon-btn:hover {
-            transform: scale(1.05);
-        }
-        .pwa-icon-btn:active {
-            transform: scale(0.95);
-        }
-        .tooltip-text {
-            visibility: hidden;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px 10px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-            font-size: 0.8rem;
-            font-weight: normal;
-        }
-        .install-tooltip:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
-        }
-        .install-note {
-            margin-top: 0.5rem;
-            color: #000000;
-            font-weight: 600;
-            font-size: 0.75rem;
-            background: rgba(255,255,255,0.3);
-            display: inline-block;
-            padding: 0.3rem 1rem;
-            border-radius: 50px;
-        }
-        @media (max-width: 600px) {
-            .pwa-icon-btn img {
-                width: 64px;
-                height: 64px;
-            }
-            .pwa-icon-btn {
-                font-size: 0.8rem;
-            }
-            .tooltip-text {
-                white-space: normal;
-                width: 200px;
-                bottom: 130%;
-            }
-        }
-
-        .ask-btn {
-            background: #000000;
-            color: #b0d9b1;
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 1.5rem;
-        }
-        .ask-btn:hover {
-            background: #333;
-            transform: scale(1.02);
-        }
-
-        .lang-switch {
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.75rem;
-            margin-bottom: 2rem;
-            background: rgba(135, 206, 235, 0.25);
-            backdrop-filter: blur(8px);
-            padding: 0.75rem 1.5rem;
-            border-radius: 60px;
-        }
-        .lang-btn {
-            background: rgba(0,0,0,0.2);
-            border: 1px solid rgba(0,0,0,0.3);
-            padding: 0.4rem 1rem;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            color: #000000;
-            transition: 0.2s;
-        }
-        .lang-btn.active {
-            background: #000000;
-            color: #b0d9b1;
-            border-color: #000000;
-        }
-        .lang-btn:hover {
-            background: rgba(0,0,0,0.5);
-            color: white;
-        }
-
-        .hero {
-            text-align: center;
-            margin-bottom: 3rem;
-            background: rgba(176, 217, 177, 0.3);
-            backdrop-filter: blur(8px);
-            padding: 2rem;
-            border-radius: 3rem;
-        }
-        .hero h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            color: #000000;
-        }
-        .hero .subhead {
-            font-size: 1.3rem;
-            font-style: italic;
-            color: #000000;
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        .concept-card {
-            background: rgba(244, 141, 1, 0.85);
-            backdrop-filter: blur(2px);
-            border-radius: 2rem;
-            padding: 1.8rem;
-            color: #ffffff;
-            transition: transform 0.2s;
-        }
-        .concept-card:hover {
-            transform: translateY(-5px);
-            background: rgba(244, 141, 1, 0.95);
-        }
-        .concept-card h3 {
-            color: #ffffff;
-            margin-bottom: 1rem;
-        }
-        .card-icon {
-            font-size: 2.8rem;
-            margin-bottom: 1rem;
-        }
-
-        .decision-circle {
-            background: rgba(244, 141, 1, 0.85);
-            backdrop-filter: blur(2px);
-            border-radius: 2rem;
-            padding: 1.8rem;
-            margin: 2rem 0;
-            color: #ffffff;
-        }
-        .decision-circle h3 {
-            color: #ffffff;
-            margin-bottom: 1rem;
-        }
-
-        .algorithm-steps {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-        .step {
-            flex: 1;
-            background: rgba(255,255,240,0.8);
-            padding: 1rem;
-            border-radius: 1.5rem;
-            text-align: center;
-            color: #000000;
-        }
-        .step-number {
-            background: #b25d3a;
-            color: white;
-            display: inline-block;
-            width: 30px;
-            border-radius: 50%;
-        }
-
-        .quote {
-            background: rgba(244, 141, 1, 0.85);
-            backdrop-filter: blur(4px);
-            padding: 1.5rem;
-            border-radius: 2rem;
-            margin: 2rem 0;
-            border-left: 6px solid #ffd966;
-            color: #ffffff;
-        }
-
-        .quiz-card {
-            background: rgba(244, 141, 1, 0.9);
-            border-radius: 1.5rem;
-            padding: 1.2rem;
-            margin-bottom: 1rem;
-        }
-        .quiz-options {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-        .check-btn {
-            background: #000000;
-            color: #b0d9b1;
-            border: none;
-            padding: 0.5rem 1.2rem;
-            border-radius: 2rem;
-            cursor: pointer;
-        }
-        .quiz-feedback {
-            margin-top: 0.5rem;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal.active {
-            display: flex;
-        }
-        .modal-content {
-            background: rgba(244, 141, 1, 0.95);
-            backdrop-filter: blur(12px);
-            border-radius: 2rem;
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-            color: white;
-        }
-        .modal-content textarea {
-            width: 100%;
-            padding: 0.8rem;
-            margin-bottom: 1rem;
-            border-radius: 1rem;
-            border: none;
-            min-height: 100px;
-            font-family: inherit;
-            font-size: 1rem;
-        }
-        .modal-content button {
-            background: #000000;
-            color: #b0d9b1;
-            border: none;
-            padding: 0.8rem;
-            border-radius: 2rem;
-            width: 100%;
-            cursor: pointer;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-        .answer-area {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: rgba(0,0,0,0.3);
-            border-radius: 1rem;
-            display: none;
-        }
-        .answer-area.active {
-            display: block;
-        }
-        .close-modal {
-            background: transparent !important;
-            color: #ffffff !important;
-            border: 1px solid #ffffff !important;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 3rem;
-            color: #000000;
-            font-size: 0.8rem;
-        }
-
-        .lang-content {
-            display: none;
-        }
-        .lang-content.active {
-            display: block;
-        }
-
-        @media (max-width: 700px) {
-            body {
-                padding: 1rem;
-            }
-            .hero h1 {
-                font-size: 2rem;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #F48D01; font-family: system-ui, 'Segoe UI', 'Cormorant Garamond', serif; color: #000000; line-height: 1.5; padding: 2rem 1.5rem; min-height: 100vh; position: relative; }
+        .logo { margin-bottom: 15px; }
+        .logo h1 { font-size: 1.8rem; color: #000000; font-weight: bold; letter-spacing: 2px; font-family: 'Courier New', 'American Typewriter', monospace; background: transparent; padding: 0; display: inline-block; }
+        .bg-layers { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .bg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; background-repeat: no-repeat; }
+        .bg-domino { background-image: url('domino.png'); filter: grayscale(100%) brightness(196%) contrast(300%) blur(0px); opacity: 1.0; }
+        .bg-graph { background-image: url('graph.png'); filter: grayscale(48%) brightness(79%) contrast(300%) blur(0px); opacity: 0.57; }
+        .container { position: relative; z-index: 2; max-width: 1280px; margin: 0 auto; }
+        .install-area { text-align: center; margin: 0 0 1.5rem 0; }
+        .install-tooltip { position: relative; display: inline-block; }
+        .pwa-icon-btn { background: none; border: none; cursor: pointer; padding: 0; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; transition: transform 0.2s; gap: 0.3rem; font-size: 0.9rem; font-weight: 600; color: #000000; }
+        .pwa-icon-btn img { width: 96px; height: 96px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .pwa-icon-btn:hover { transform: scale(1.05); }
+        .pwa-icon-btn:active { transform: scale(0.95); }
+        .tooltip-text { visibility: hidden; background-color: #333; color: #fff; text-align: center; border-radius: 6px; padding: 5px 10px; position: absolute; z-index: 1; bottom: 125%; left: 50%; transform: translateX(-50%); white-space: nowrap; opacity: 0; transition: opacity 0.3s; pointer-events: none; font-size: 0.8rem; font-weight: normal; }
+        .install-tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
+        .install-note { margin-top: 0.5rem; color: #000000; font-weight: 600; font-size: 0.75rem; background: rgba(255,255,255,0.3); display: inline-block; padding: 0.3rem 1rem; border-radius: 50px; }
+        @media (max-width: 600px) { .pwa-icon-btn img { width: 64px; height: 64px; } .tooltip-text { white-space: normal; width: 200px; bottom: 130%; } }
+        .lang-switch { display: flex; justify-content: flex-end; gap: 0.75rem; margin-bottom: 2rem; background: rgba(135, 206, 235, 0.25); backdrop-filter: blur(8px); padding: 0.75rem 1.5rem; border-radius: 60px; }
+        .lang-btn { background: rgba(0,0,0,0.2); border: 1px solid rgba(0,0,0,0.3); padding: 0.4rem 1rem; border-radius: 40px; font-weight: 600; font-size: 0.9rem; cursor: pointer; color: #000000; transition: 0.2s; }
+        .lang-btn.active { background: #000000; color: #b0d9b1; border-color: #000000; }
+        .lang-btn:hover { background: rgba(0,0,0,0.5); color: white; }
+        .hero { text-align: center; margin-bottom: 3rem; background: rgba(176, 217, 177, 0.3); backdrop-filter: blur(8px); padding: 2rem; border-radius: 3rem; }
+        .hero h1 { font-size: 2.8rem; font-weight: 700; color: #000000; }
+        .hero .subhead { font-size: 1.3rem; font-style: italic; color: #000000; }
+        .intro-text { background: rgba(244, 141, 1, 0.85); backdrop-filter: blur(2px); border-radius: 2rem; padding: 1.5rem; margin-bottom: 2rem; color: #ffffff; }
+        .intro-text p { margin-bottom: 0.8rem; }
+        .predict-btn { background: #000000; color: #b0d9b1; border: none; padding: 0.8rem 2rem; border-radius: 50px; font-weight: bold; font-size: 1.3rem; cursor: pointer; transition: 0.2s; margin-top: 1rem; display: inline-block; text-decoration: none; }
+        .predict-btn:hover { background: #333; transform: scale(1.02); }
+        footer { text-align: center; margin-top: 3rem; color: #000000; font-size: 0.8rem; }
+        .lang-content { display: none; }
+        .lang-content.active { display: block; }
+        @media (max-width: 700px) { body { padding: 1rem; } .hero h1 { font-size: 2rem; } }
     </style>
 </head>
 <body>
@@ -425,22 +54,16 @@
 </div>
 
 <div class="container">
-    <!-- Логотип HM&GO -->
-    <div class="logo">
-        <h1>HM&GO</h1>
-    </div>
-
+    <div class="logo"><h1>HM&amp;GO</h1></div>
     <div class="install-area">
         <div class="install-tooltip">
             <button id="pwa-install-icon" class="pwa-icon-btn">
-                <img src="icon-192x192.png" alt="Установить приложение" width="96" height="96"
-                     onerror="this.style.display='none'; this.parentNode.querySelector('.fallback-text').style.display='inline-block';">
-                <span class="fallback-text" style="display:none;">📱</span>
+                <img src="icon-192x192.png" alt="Установить приложение" width="96" height="96">
                 <span id="pwaButtonText">Установить</span>
             </button>
-            <span class="tooltip-text" id="pwaTooltip">💡 Нажмите — установите как приложение.<br>• Chrome/Edge: появится диалог.<br>• iPhone: Поделиться → На экран «Домой».</span>
+            <span class="tooltip-text" id="pwaTooltip">💡 Нажмите — установите как приложение.</span>
         </div>
-        <div class="install-note" id="installNote">✅ Нажмите на иконку монитора со стрелкой в адресной строке, чтобы установить приложение. На iPhone: Поделиться → На экран «Домой».</div>
+        <div class="install-note" id="installNote">✅ Нажмите на иконку монитора со стрелкой в адресной строке.</div>
     </div>
 
     <div class="lang-switch">
@@ -450,305 +73,62 @@
 
     <div id="ru-content" class="lang-content active">
         <div class="hero">
-            <h1>Теория игр: не прямая линия, а горизонты решений</h1>
-            <div class="subhead">Математический механизм, который взвешивает все варианты</div>
-            <button class="ask-btn" id="askQuestionBtn">🤔 Задать вопрос</button>
+            <h1>Game Theory Oracle</h1>
+            <div class="subhead">Спросите у предсказателя, основанного на теории игр, истории и культурных факторах</div>
         </div>
-
-        <div class="cards-grid">
-            <div class="concept-card"><div class="card-icon">🧠</div><h3>Что это?</h3><p>Теория игр — наука о стратегическом выборе. Она просчитывает последствия каждого шага.</p></div>
-            <div class="concept-card"><div class="card-icon">⚖️</div><h3>Взвешивание вариантов</h3><p>Вы строите матрицу всех возможных ходов. Теория игр показывает, какой исход стабилен.</p></div>
-            <div class="concept-card"><div class="card-icon">🚫</div><h3>Красные линии</h3><p>Определите границы, за которые нельзя заходить. Теория игр помогает очертить этот круг.</p></div>
+        <div class="intro-text">
+            <p>🔮 <strong>Что это?</strong> Система, которая анализирует вашу ситуацию через призму теории игр, исторических аналогий и культурно-религиозных особенностей. Вы получаете прогноз с доверительной вероятностью 80%.</p>
+            <p>📊 <strong>Как использовать?</strong> Перейдите к опроснику, заполните данные о событии и о себе (анонимно). Чем подробнее вы опишете участников, ресурсы и ограничения, тем точнее будет результат.</p>
+            <p>⚖️ <strong>Принцип работы</strong> — мы не предсказываем будущее, мы вычисляем равновесия на основе матриц выигрышей и прошлых паттернов.</p>
         </div>
-
-        <div class="decision-circle">
-            <h3>📚 Исторический рубеж: Карибский кризис (1962)</h3>
-            <p>США выбрали морскую блокаду вместо прямого удара — оставляя СССР пространство для отступления. Круг, за который нельзя было выйти: ядерный удар.</p>
-        </div>
-
-        <div class="decision-circle">
-            <h3>🧭 Алгоритм для любого события</h3>
-            <div class="algorithm-steps">
-                <div class="step"><span class="step-number">1</span> Кто участники?</div>
-                <div class="step"><span class="step-number">2</span> Какие варианты?</div>
-                <div class="step"><span class="step-number">3</span> Что получим?</div>
-                <div class="step"><span class="step-number">4</span> Стабильный исход?</div>
-            </div>
-            <p>🎯 Равновесие Нэша: никому не выгодно менять решение, если другие не меняют.</p>
-        </div>
-
-        <div class="quote">
-            <p>«Конфликт не закончится, пока не наступит событие А (внешний гарант) или Б (изменение таблицы выигрышей).»</p>
-            <footer>— Профессор Ху</footer>
-        </div>
-
-        <div class="decision-circle">
-            <h3>🧩 Тренировка</h3>
-            <div class="quiz-card" data-quiz="1">
-                <p><strong>Ситуация 1.</strong> Два конкурента. Какая стратегия не ведёт к разорению?</p>
-                <div class="quiz-options">
-                    <label><input type="radio" name="quiz1" value="a"> Всегда снижать цену.</label>
-                    <label><input type="radio" name="quiz1" value="b"> Всегда держать высокую.</label>
-                    <label><input type="radio" name="quiz1" value="c"> Снижать, только если конкурент снизил.</label>
-                </div>
-                <button class="check-btn" data-quiz="1">Проверить</button>
-                <div class="quiz-feedback" data-feedback="1"></div>
-            </div>
-            <div class="quiz-card" data-quiz="2">
-                <p><strong>Ситуация 2.</strong> Две страны. Какой выбор ведёт к разоружению?</p>
-                <div class="quiz-options">
-                    <label><input type="radio" name="quiz2" value="a"> Всегда вооружаться.</label>
-                    <label><input type="radio" name="quiz2" value="b"> Всегда разоружаться.</label>
-                    <label><input type="radio" name="quiz2" value="c"> Вооружаться только если другая вооружается; разоружаться, если другая разоружается.</label>
-                </div>
-                <button class="check-btn" data-quiz="2">Проверить</button>
-                <div class="quiz-feedback" data-feedback="2"></div>
-            </div>
+        <div style="text-align: center;">
+            <a href="predict.html" class="predict-btn">🔮 Получить прогноз</a>
         </div>
     </div>
 
     <div id="en-content" class="lang-content">
         <div class="hero">
-            <h1>Game Theory: not a straight line, but a horizon of choices</h1>
-            <div class="subhead">Weighing every option, drawing the circle you must never exit.</div>
-            <button class="ask-btn" id="askQuestionBtnEn">🤔 Ask a question</button>
+            <h1>Game Theory Oracle</h1>
+            <div class="subhead">Ask the predictor based on game theory, history and cultural factors</div>
         </div>
-        <div class="cards-grid">
-            <div class="concept-card"><div class="card-icon">🧠</div><h3>What is it?</h3><p>Game theory is the science of strategic choice.</p></div>
-            <div class="concept-card"><div class="card-icon">⚖️</div><h3>Weighing options</h3><p>You build a matrix of possible moves.</p></div>
-            <div class="concept-card"><div class="card-icon">🚫</div><h3>Red lines</h3><p>Identify boundaries you must never cross.</p></div>
+        <div class="intro-text">
+            <p>🔮 <strong>What is this?</strong> A system that analyzes your situation through game theory, historical analogies and cultural-religious features. You get a forecast with 80% confidence.</p>
+            <p>📊 <strong>How to use?</strong> Go to the questionnaire, fill in the event data and your background (anonymous). The more details about participants, resources and constraints, the more accurate the result.</p>
+            <p>⚖️ <strong>How it works</strong> — we don't predict the future, we compute equilibria based on payoff matrices and past patterns.</p>
         </div>
-        <div class="decision-circle"><h3>📚 Cuban Missile Crisis (1962)</h3><p>The US chose a naval blockade — leaving the USSR room to back down.</p></div>
-        <div class="decision-circle"><h3>🧭 Algorithm for any event</h3><div class="algorithm-steps"><div class="step"><span class="step-number">1</span> Players</div><div class="step"><span class="step-number">2</span> Options</div><div class="step"><span class="step-number">3</span> Payoffs</div><div class="step"><span class="step-number">4</span> Stable outcome</div></div><p>🎯 Nash equilibrium.</p></div>
-        <div class="quote"><p>"A conflict won't end until event A or B."</p><footer>— Professor Hu</footer></div>
-        <div class="decision-circle"><h3>🧩 Training</h3>
-            <div class="quiz-card" data-quiz="1-en"><p><strong>Situation 1.</strong> Which strategy avoids mutual ruin?</p><div class="quiz-options"><label><input type="radio" name="quiz1en" value="a"> Always lower price.</label><label><input type="radio" name="quiz1en" value="b"> Always keep high.</label><label><input type="radio" name="quiz1en" value="c"> Lower only if competitor lowers.</label></div><button class="check-btn" data-quiz="1-en">Check</button><div class="quiz-feedback" data-feedback="1-en"></div></div>
-            <div class="quiz-card" data-quiz="2-en"><p><strong>Situation 2.</strong> Which choice leads to disarmament?</p><div class="quiz-options"><label><input type="radio" name="quiz2en" value="a"> Always arm.</label><label><input type="radio" name="quiz2en" value="b"> Always disarm.</label><label><input type="radio" name="quiz2en" value="c"> Arm only if the other arms; disarm if the other disarms.</label></div><button class="check-btn" data-quiz="2-en">Check</button><div class="quiz-feedback" data-feedback="2-en"></div></div>
+        <div style="text-align: center;">
+            <a href="predict.html" class="predict-btn">🔮 Get prediction</a>
         </div>
     </div>
 
-    <footer>© Теория игр — стратегическое мышление</footer>
-</div>
-
-<div id="questionModal" class="modal">
-    <div class="modal-content">
-        <h3 id="modalTitle">🤔 Задайте свой вопрос</h3>
-        <textarea id="questionText" placeholder=""></textarea>
-        <button id="submitQuestion">🔮 Получить анализ</button>
-        <div id="answerArea" class="answer-area">
-            <strong id="answerTitle">📊 Анализ на основе теории игр:</strong>
-            <p id="answerText"></p>
-        </div>
-        <button id="closeModalBtn" class="close-modal">✖ Закрыть</button>
-    </div>
+    <footer>© HM&amp;GO — предсказательная система</footer>
 </div>
 
 <script>
-    // -------------------- PWA УСТАНОВКА --------------------
     let deferredPrompt;
-    
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        console.log('PWA ready to install');
+    window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
+    document.getElementById('pwa-install-icon')?.addEventListener('click', async () => {
+        if (deferredPrompt) { deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; }
+        else alert('Для установки: Chrome/Edge — значок ⬇️ в адресной строке');
     });
-    
-    window.showPWAInstructions = function() {
-        const lang = document.querySelector('.lang-btn.active')?.dataset.lang || 'ru';
-        let msg = '';
-        if (lang === 'ru') msg = 'Для установки приложения:\n\n• На компьютере: нажмите на иконку монитора со стрелкой в адресной строке.\n• На iPhone: нажмите "Поделиться" → "На экран «Домой»".\n• На Android: нажмите на иконку монитора со стрелкой в адресной строке.';
-        else msg = 'To install the app:\n\n• On computer: click the monitor icon with a down arrow in the address bar.\n• On iPhone: tap "Share" → "Add to Home Screen".\n• On Android: tap the monitor icon with a down arrow in the address bar.';
-        alert(msg);
-    };
-    
-    const pwaButton = document.getElementById('pwa-install-icon');
-    if (pwaButton) {
-        pwaButton.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                console.log(`PWA install: ${outcome}`);
-                deferredPrompt = null;
-            } else {
-                showPWAInstructions();
-            }
-        });
-    }
-
     function updatePWATexts(lang) {
-        const btnText = document.getElementById('pwaButtonText');
-        const tooltip = document.getElementById('pwaTooltip');
-        const installNote = document.getElementById('installNote');
-        if (lang === 'ru') {
-            if (btnText) btnText.textContent = 'Установить';
-            if (tooltip) tooltip.innerHTML = '💡 Нажмите — установите как приложение.<br>• Chrome/Edge: появится диалог.<br>• iPhone: Поделиться → На экран «Домой».';
-            if (installNote) installNote.innerHTML = '✅ Нажмите на иконку монитора со стрелкой в адресной строке, чтобы установить приложение. На iPhone: Поделиться → На экран «Домой».';
-        } else {
-            if (btnText) btnText.textContent = 'Install';
-            if (tooltip) tooltip.innerHTML = '💡 Click — install as app.<br>• Chrome/Edge: dialog appears.<br>• iPhone: Share → Add to Home Screen.';
-            if (installNote) installNote.innerHTML = '✅ Click the monitor icon with a down arrow in the address bar to install the app. On iPhone: Share → Add to Home Screen.';
-        }
+        const btn = document.getElementById('pwaButtonText');
+        if (btn) btn.textContent = (lang === 'ru') ? 'Установить' : 'Install';
     }
-
-    // -------------------- МОДАЛЬНОЕ ОКНО --------------------
-    const modal = document.getElementById('questionModal');
-    const askBtn = document.getElementById('askQuestionBtn');
-    const askBtnEn = document.getElementById('askQuestionBtnEn');
-    const closeModalBtns = document.querySelectorAll('.close-modal');
-    const submitBtn = document.getElementById('submitQuestion');
-    const answerArea = document.getElementById('answerArea');
-    const answerText = document.getElementById('answerText');
-
-    function openModal() { modal.classList.add('active'); }
-    if (askBtn) askBtn.addEventListener('click', openModal);
-    if (askBtnEn) askBtnEn.addEventListener('click', openModal);
-    closeModalBtns.forEach(btn => btn.addEventListener('click', () => {
-        modal.classList.remove('active');
-        answerArea.classList.remove('active');
-    }));
-    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
-
-    // -------------------- АНАЛИЗ ВОПРОСОВ --------------------
-    function analyzeQuestion(question) {
-        const q = question.toLowerCase();
-        
-        const dangerous = ['оружие', 'бомб', 'убить', 'умереть', 'самоубийство', 'насилие', 'terror', 'weapon', 'bomb', 'kill', 'die', 'suicide', 'violence'];
-        for (let word of dangerous) {
-            if (q.includes(word)) {
-                return "⚠️ Извините, я не могу отвечать на вопросы, связанные с насилием, оружием или причинением вреда. Пожалуйста, задайте другой вопрос.";
-            }
-        }
-        
-        if (q.includes('богат') || q.includes('денег') || q.includes('деньги') || q.includes('wealth') || q.includes('rich') || q.includes('money')) {
-            return "📈 Вероятность финансового успеха — 67%\n\nОснование: теория игр — ваша стратегия накопления и риска. Статистика: люди, задающие такие вопросы, в 2 раза чаще меняют финансовое поведение.\n\nНедостаточно данных для точного прогноза: нужны возраст, доход, инвестиции. Без этого — оценка ±15%.";
-        }
-        
-        if (q.includes('секс') || q.includes('sex') || q.includes('любов') || q.includes('отношен') || q.includes('девушк') || q.includes('парень')) {
-            return "💑 Вероятность улучшения личной жизни в ближайший год — 72%\n\nОснование: теория игр — ваш запрос означает готовность к действию. Психология: люди, задающие такие вопросы, чаще меняют поведение.\n\nНедостаточно данных: нужны возраст, социальная активность.";
-        }
-        
-        if (q.includes('религ') || q.includes('бог') || q.includes('духов') || q.includes('religion') || q.includes('god')) {
-            return "🕊️ Через 50 лет останется 15-20 крупных религиозных течений\n\nОснование: теория игр — конкуренция за адептов ведёт к слияниям идей. Статистика: за 100 лет число независимых религиозных течений сократилось на 40%.";
-        }
-        
-        if (q.includes('работ') || q.includes('карьер') || q.includes('job') || q.includes('career')) {
-            return "💼 Вероятность положительных карьерных изменений — 58%\n\nОснование: теория игр — ваш вопрос говорит о рефлексии. Статистика: 70% повышений получают те, кто их явно просит.\n\nНедостаточно данных: нужны стаж, должность, отрасль.";
-        }
-        
-        if (q.includes('войн') || q.includes('мир') || q.includes('конфликт') || q.includes('war') || q.includes('peace')) {
-            return "🌍 Вероятность эскалации конфликта в ближайшие 2 года — 45%\n\nОснование: теория игр — накопленные ресурсы и асимметрия информации. Логистика и энергия — главные факторы тупика.\n\nРавновесие: внешний гарант (ООН, Китай, США) — единственный выход.";
-        }
-        
-        if (q.includes('технолог') || q.includes('ии') || q.includes('робот') || q.includes('будущ') || q.includes('ai') || q.includes('future')) {
-            return "🤖 Вероятность технологической сингулярности к 2050 году — 40%\n\nОснование: теория игр — гонка ИИ-компаний, каждый стремится первым. Экспоненциальный рост вычислительных мощностей.\n\nРавновесие: возможно самоограничение или гонка без тормозов.";
-        }
-        
-        if (q.includes('здоров') || q.includes('болезн') || q.includes('жить') || q.includes('health')) {
-            return "❤️ Вероятность дожить до 80 лет при текущих условиях — 65%\n\nОснование: теория игр — ваше поведение (курение, спорт, питание) — доминирующие стратегии. Генетика даёт 30%, образ жизни — 50%.\n\nНедостаточно данных: нужны возраст, пол, регион.";
-        }
-        
-        return "❓ Недостаточно данных для анализа.\n\nТеория игр требует определённых параметров: участники, варианты ходов, выигрыши.\n\nЧто нужно уточнить в вопросе:\n• Кто участники ситуации?\n• Какие у них возможные действия?\n• Каковы временные рамки?\n• Ваша роль в этом событии?\n\nПожалуйста, переформулируйте вопрос с указанием этих данных.";
-    }
-
-    submitBtn.addEventListener('click', () => {
-        const question = document.getElementById('questionText').value;
-        if (!question.trim()) {
-            const lang = document.querySelector('.lang-btn.active')?.dataset.lang || 'ru';
-            answerText.innerText = lang === 'ru' ? '❌ Пожалуйста, введите ваш вопрос.' : '❌ Please enter your question.';
-            answerArea.classList.add('active');
-            return;
-        }
-        const currentLang = document.querySelector('.lang-btn.active')?.dataset.lang || 'ru';
-        let answer = analyzeQuestion(question);
-        if (currentLang === 'en') {
-            answer = answer
-                .replace('⚠️ Извините, я не могу отвечать на вопросы, связанные с насилием, оружием или причинением вреда. Пожалуйста, задайте другой вопрос.', '⚠️ Sorry, I cannot answer questions about violence, weapons, or harm. Please ask another question.')
-                .replace('📈 Вероятность финансового успеха — 67%\n\nОснование: теория игр — ваша стратегия накопления и риска. Статистика: люди, задающие такие вопросы, в 2 раза чаще меняют финансовое поведение.\n\nНедостаточно данных для точного прогноза: нужны возраст, доход, инвестиции. Без этого — оценка ±15%.', '📈 Probability of financial success — 67%\n\nBasis: game theory — your saving and risk strategy.\n\nInsufficient data: age, income, investments needed.')
-                .replace('💑 Вероятность улучшения личной жизни в ближайший год — 72%\n\nОснование: теория игр — ваш запрос означает готовность к действию. Психология: люди, задающие такие вопросы, чаще меняют поведение.\n\nНедостаточно данных: нужны возраст, социальная активность.', '💑 Probability of personal life improvement in the next year — 72%\n\nInsufficient data: age, social activity needed.')
-                .replace('🕊️ Через 50 лет останется 15-20 крупных религиозных течений\n\nОснование: теория игр — конкуренция за адептов ведёт к слияниям идей. Статистика: за 100 лет число независимых религиозных течений сократилось на 40%.', '🕊️ In 50 years, 15-20 major religious movements will remain.')
-                .replace('💼 Вероятность положительных карьерных изменений — 58%\n\nОснование: теория игр — ваш вопрос говорит о рефлексии. Статистика: 70% повышений получают те, кто их явно просит.\n\nНедостаточно данных: нужны стаж, должность, отрасль.', '💼 Probability of positive career changes — 58%\n\nInsufficient data: seniority, position, industry needed.')
-                .replace('🌍 Вероятность эскалации конфликта в ближайшие 2 года — 45%\n\nОснование: теория игр — накопленные ресурсы и асимметрия информации. Логистика и энергия — главные факторы тупика.\n\nРавновесие: внешний гарант (ООН, Китай, США) — единственный выход.', '🌍 Probability of conflict escalation in the next 2 years — 45%\n\nEquilibrium: external guarantor (UN, China, US) is the only way out.')
-                .replace('🤖 Вероятность технологической сингулярности к 2050 году — 40%\n\nОснование: теория игр — гонка ИИ-компаний, каждый стремится первым. Экспоненциальный рост вычислительных мощностей.\n\nРавновесие: возможно самоограничение или гонка без тормозов.', '🤖 Probability of technological singularity by 2050 — 40%\n\nEquilibrium: possible self-restraint or uncontrolled race.')
-                .replace('❤️ Вероятность дожить до 80 лет при текущих условиях — 65%\n\nОснование: теория игр — ваше поведение (курение, спорт, питание) — доминирующие стратегии. Генетика даёт 30%, образ жизни — 50%.\n\nНедостаточно данных: нужны возраст, пол, регион.', '❤️ Probability of living to 80 under current conditions — 65%\n\nInsufficient data: age, gender, region needed.')
-                .replace('❓ Недостаточно данных для анализа.\n\nТеория игр требует определённых параметров: участники, варианты ходов, выигрыши.\n\nЧто нужно уточнить в вопросе:\n• Кто участники ситуации?\n• Какие у них возможные действия?\n• Каковы временные рамки?\n• Ваша роль в этом событии?\n\nПожалуйста, переформулируйте вопрос с указанием этих данных.', '❓ Insufficient data for analysis.\n\nGame theory requires specific parameters: players, possible moves, payoffs.\n\nPlease rephrase your question with these details.');
-        }
-        answerText.innerText = answer;
-        answerArea.classList.add('active');
-    });
-
-    // -------------------- ПЕРЕКЛЮЧЕНИЕ ЯЗЫКОВ --------------------
-    const translationsModal = {
-        ru: {
-            modalTitle: '🤔 Задайте свой вопрос',
-            submitBtn: '🔮 Получить анализ',
-            answerTitle: '📊 Анализ на основе теории игр:',
-            closeBtn: '✖ Закрыть'
-        },
-        en: {
-            modalTitle: '🤔 Ask your question',
-            submitBtn: '🔮 Get analysis',
-            answerTitle: '📊 Game theory analysis:',
-            closeBtn: '✖ Close'
-        }
-    };
-    
-    function updateUILang(lang) {
-        document.getElementById('modalTitle').textContent = translationsModal[lang].modalTitle;
-        document.getElementById('submitQuestion').textContent = translationsModal[lang].submitBtn;
-        document.getElementById('answerTitle').textContent = translationsModal[lang].answerTitle;
-        const closeBtn = document.getElementById('closeModalBtn');
-        if (closeBtn) closeBtn.textContent = translationsModal[lang].closeBtn;
-        updatePWATexts(lang);
-    }
-
-    const ruDiv = document.getElementById('ru-content');
-    const enDiv = document.getElementById('en-content');
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const lang = btn.dataset.lang;
-            if (lang === 'ru') {
-                ruDiv.classList.add('active');
-                enDiv.classList.remove('active');
-            } else {
-                ruDiv.classList.remove('active');
-                enDiv.classList.add('active');
-            }
+            document.getElementById('ru-content').classList.toggle('active', lang === 'ru');
+            document.getElementById('en-content').classList.toggle('active', lang === 'en');
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            updateUILang(lang);
+            updatePWATexts(lang);
         });
     });
-    updateUILang('ru');
-
-    // -------------------- КВИЗЫ --------------------
-    const answers = { '1': 'c', '2': 'c', '1-en': 'c', '2-en': 'c' };
-    const feedbackMsg = {
-        '1': { ru: '✅ Верно! Стратегия «зуб за зуб» — самая устойчивая.', en: '✅ Correct! Tit-for-tat is the most stable.' },
-        '2': { ru: '✅ Правильно! Зеркальная стратегия ведёт к разоружению.', en: '✅ Correct! Mirror strategy leads to disarmament.' }
-    };
-    document.querySelectorAll('.check-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const quizId = btn.dataset.quiz;
-            const container = btn.closest('.quiz-card');
-            const radioName = quizId.includes('en') ? `quiz${quizId.split('-')[0]}en` : `quiz${quizId}`;
-            const selected = container.querySelector(`input[name="${radioName}"]:checked`);
-            const fbDiv = container.querySelector('.quiz-feedback');
-            const lang = quizId.includes('en') ? 'en' : 'ru';
-            if (!selected) { fbDiv.innerHTML = lang === 'ru' ? '⚠️ Выберите вариант.' : '⚠️ Select an option.'; return; }
-            if (selected.value === answers[quizId]) {
-                fbDiv.innerHTML = feedbackMsg[quizId.split('-')[0]][lang];
-            } else {
-                fbDiv.innerHTML = lang === 'ru' ? '❌ Неверно. Подумайте о стабильности.' : '❌ Incorrect. Think about stability.';
-            }
-        });
-    });
-
-    // -------------------- SERVICE WORKER (ПУТЬ ИЗ ВАШЕГО МАНИФЕСТА) --------------------
+    updatePWATexts('ru');
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/Game-Theory-Oracle/sw.js', { scope: '/Game-Theory-Oracle/' })
-                .then(reg => console.log('✅ Service Worker registered:', reg.scope))
-                .catch(err => console.log('❌ Service Worker error:', err));
+            navigator.serviceWorker.register('/Game-Theory-Oracle/sw.js', { scope: '/Game-Theory-Oracle/' }).catch(err => console.warn(err));
         });
     }
 </script>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>HM&amp;GO — Опросник</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="HM&amp;GO">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#F48D01">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #F48D01; font-family: system-ui, 'Segoe UI', 'Cormorant Garamond', serif; color: #000000; line-height: 1.5; padding: 2rem 1.5rem; min-height: 100vh; position: relative; }
+        .logo { margin-bottom: 15px; }
+        .logo h1 { font-size: 1.8rem; color: #000000; font-family: 'Courier New', 'American Typewriter', monospace; background: transparent; padding: 0; display: inline-block; }
+        .bg-layers { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .bg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; background-repeat: no-repeat; }
+        .bg-domino { background-image: url('domino.png'); filter: grayscale(100%) brightness(196%) contrast(300%) blur(0px); opacity: 1.0; }
+        .bg-graph { background-image: url('graph.png'); filter: grayscale(48%) brightness(79%) contrast(300%) blur(0px); opacity: 0.57; }
+        .container { position: relative; z-index: 2; max-width: 1280px; margin: 0 auto; }
+        .install-area { text-align: center; margin: 0 0 1rem 0; }
+        .pwa-icon-btn { background: none; border: none; cursor: pointer; display: inline-flex; flex-direction: column; align-items: center; gap: 0.3rem; font-size: 0.9rem; font-weight: 600; color: #000000; }
+        .pwa-icon-btn img { width: 96px; height: 96px; border-radius: 12px; }
+        .lang-switch { display: flex; justify-content: flex-end; gap: 0.75rem; margin-bottom: 1rem; background: rgba(135, 206, 235, 0.25); backdrop-filter: blur(8px); padding: 0.75rem 1.5rem; border-radius: 60px; }
+        .lang-btn { background: rgba(0,0,0,0.2); border: 1px solid rgba(0,0,0,0.3); padding: 0.4rem 1rem; border-radius: 40px; font-weight: 600; cursor: pointer; color: #000000; }
+        .lang-btn.active { background: #000000; color: #b0d9b1; }
+        .hero { text-align: center; margin-bottom: 2rem; background: rgba(176, 217, 177, 0.3); backdrop-filter: blur(8px); padding: 1rem; border-radius: 2rem; }
+        .hero h1 { font-size: 2rem; }
+        .form-container { background: rgba(244, 141, 1, 0.85); backdrop-filter: blur(2px); border-radius: 2rem; padding: 1.5rem; margin-bottom: 2rem; color: #ffffff; }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.3rem; font-weight: bold; }
+        input, select, textarea { width: 100%; padding: 0.5rem; border-radius: 1rem; border: none; background: rgba(255,255,255,0.8); color: #000; }
+        .submit-btn { background: #000000; color: #b0d9b1; border: none; padding: 0.8rem 2rem; border-radius: 2rem; font-weight: bold; font-size: 1.2rem; cursor: pointer; margin-top: 1rem; width: 100%; }
+        .result-box { background: #000000; color: #b0d9b1; padding: 1.5rem; border-radius: 1.5rem; margin-top: 2rem; display: none; white-space: pre-wrap; }
+        .home-btn { background: #000000; color: #b0d9b1; border: none; padding: 0.6rem 1.5rem; border-radius: 2rem; cursor: pointer; font-weight: bold; margin-top: 1rem; display: inline-block; text-decoration: none; text-align: center; }
+        footer { text-align: center; margin-top: 2rem; font-size: 0.8rem; }
+        .lang-content { display: none; }
+        .lang-content.active { display: block; }
+        @media (max-width: 700px) { .pwa-icon-btn img { width: 64px; height: 64px; } }
+    </style>
+</head>
+<body>
+<div class="bg-layers">
+    <div class="bg-layer bg-domino"></div>
+    <div class="bg-layer bg-graph"></div>
+</div>
+
+<div class="container">
+    <div class="logo"><h1>HM&amp;GO</h1></div>
+    <div class="install-area">
+        <button id="pwa-install-icon" class="pwa-icon-btn">
+            <img src="icon-192x192.png" alt="Установить">
+            <span id="pwaButtonText">Установить</span>
+        </button>
+    </div>
+    <div class="lang-switch">
+        <button class="lang-btn" data-lang="ru">🇷🇺 Русский</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <div id="ru-form" class="lang-content active">
+        <div class="hero"><h1>📊 Опросник для прогноза</h1></div>
+        <div class="form-container">
+            <form id="predictFormRu">
+                <div class="form-group"><label>Опишите ситуацию (что прогнозируем?)</label><textarea name="situation" rows="3" required></textarea></div>
+                <div class="form-group"><label>Участники (стороны) через запятую</label><input name="players" required></div>
+                <div class="form-group"><label>Возможные действия каждой стороны</label><textarea name="actions" rows="2"></textarea></div>
+                <div class="form-group"><label>Ресурсы / ограничения (экономические, военные и др.)</label><textarea name="resources" rows="2"></textarea></div>
+                <div class="form-group"><label>Временной горизонт (дни, месяцы, годы)</label><input name="timeframe"></div>
+                <div class="form-group"><label>Ваш пол</label><select name="gender"><option value="male">Мужской</option><option value="female">Женский</option><option value="other">Другой</option></select></div>
+                <div class="form-group"><label>Ваш возраст (лет)</label><input name="age" type="number"></div>
+                <div class="form-group"><label>Уровень образования</label><select name="education"><option value="school">Среднее</option><option value="bachelor">Бакалавр</option><option value="master">Магистр</option><option value="phd">Кандидат наук</option></select></div>
+                <div class="form-group"><label>Регион / страна</label><input name="region"></div>
+                <button type="button" class="submit-btn" id="submitRu">🔮 Получить прогноз</button>
+            </form>
+            <div id="resultRu" class="result-box"></div>
+            <div style="text-align: center; margin-top: 1rem;">
+                <a href="index.html" class="home-btn">🏠 На главную</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="en-form" class="lang-content">
+        <div class="hero"><h1>📊 Prediction questionnaire</h1></div>
+        <div class="form-container">
+            <form id="predictFormEn">
+                <div class="form-group"><label>Describe the situation (what to predict?)</label><textarea name="situation" rows="3" required></textarea></div>
+                <div class="form-group"><label>Participants (sides) comma separated</label><input name="players" required></div>
+                <div class="form-group"><label>Possible actions of each side</label><textarea name="actions" rows="2"></textarea></div>
+                <div class="form-group"><label>Resources / constraints (economic, military, etc.)</label><textarea name="resources" rows="2"></textarea></div>
+                <div class="form-group"><label>Time horizon (days, months, years)</label><input name="timeframe"></div>
+                <div class="form-group"><label>Your gender</label><select name="gender"><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option></select></div>
+                <div class="form-group"><label>Your age (years)</label><input name="age" type="number"></div>
+                <div class="form-group"><label>Education level</label><select name="education"><option value="school">Secondary</option><option value="bachelor">Bachelor</option><option value="master">Master</option><option value="phd">PhD</option></select></div>
+                <div class="form-group"><label>Region / country</label><input name="region"></div>
+                <button type="button" class="submit-btn" id="submitEn">🔮 Get prediction</button>
+            </form>
+            <div id="resultEn" class="result-box"></div>
+            <div style="text-align: center; margin-top: 1rem;">
+                <a href="index.html" class="home-btn">🏠 Home</a>
+            </div>
+        </div>
+    </div>
+    <footer>© HM&amp;GO — прогноз на основе теории игр и исторических данных</footer>
+</div>
+
+<script>
+    async function handleSubmit(formId, resultId, lang) {
+        const form = document.getElementById(formId);
+        const data = {};
+        const inputs = form.querySelectorAll('input, textarea, select');
+        inputs.forEach(inp => { if (inp.name) data[inp.name] = inp.value; });
+        const resultDiv = document.getElementById(resultId);
+        resultDiv.innerText = lang === 'ru' ? 'Обработка запроса...' : 'Processing request...';
+        resultDiv.style.display = 'block';
+
+        try {
+            const response = await fetch('/api/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            if (result.success) {
+                resultDiv.innerText = result.prediction;
+            } else {
+                resultDiv.innerText = lang === 'ru' ? 'Ошибка при получении прогноза.' : 'Error receiving prediction.';
+            }
+        } catch (err) {
+            resultDiv.innerText = lang === 'ru' ? 'Сетевая ошибка. Попробуйте позже.' : 'Network error. Try again later.';
+        }
+    }
+
+    document.getElementById('submitRu')?.addEventListener('click', () => handleSubmit('predictFormRu', 'resultRu', 'ru'));
+    document.getElementById('submitEn')?.addEventListener('click', () => handleSubmit('predictFormEn', 'resultEn', 'en'));
+
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
+    document.getElementById('pwa-install-icon')?.addEventListener('click', async () => {
+        if (deferredPrompt) { deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; }
+        else alert('Для установки: Chrome/Edge — значок ⬇️ в адресной строке');
+    });
+    function updatePWATexts(lang) {
+        const btn = document.getElementById('pwaButtonText');
+        if (btn) btn.textContent = (lang === 'ru') ? 'Установить' : 'Install';
+    }
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.dataset.lang;
+            document.getElementById('ru-form').classList.toggle('active', lang === 'ru');
+            document.getElementById('en-form').classList.toggle('active', lang === 'en');
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updatePWATexts(lang);
+        });
+    });
+    updatePWATexts('ru');
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/Game-Theory-Oracle/sw.js', { scope: '/Game-Theory-Oracle/' }).catch(err => console.warn(err));
+        });
+    }
+</script>
+</body>
+</html>
