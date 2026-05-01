@@ -1,14 +1,24 @@
 {
   "name": "HM&GO Game Theory Oracle",
   "short_name": "HM&GO",
-  "start_url": "/Game-Theory-Oracle/index.html",
-  "scope": "/Game-Theory-Oracle/",
+  "start_url": ".",
+  "scope": ".",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "theme_color": "#F48D01",
   "background_color": "#F48D01",
   "icons": [
-    {"src": "/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
-    {"src": "/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}
+    {
+      "src": "icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
   ]
 }

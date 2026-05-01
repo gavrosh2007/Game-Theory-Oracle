@@ -1,15 +1,19 @@
-const CACHE_NAME = 'gametheory-v2';
-const BASE_PATH = '/Game-Theory-Oracle/';
+const base = (() => {
+  const path = self.location.pathname.split('/');
+  path.pop();
+  return path.join('/') + '/';
+})();
 
+const CACHE_NAME = 'gametheory-oracle-v1';
 const urlsToCache = [
-  BASE_PATH,
-  BASE_PATH + 'index.html',
-  BASE_PATH + 'offline.html',
-  BASE_PATH + 'manifest.json',
-  BASE_PATH + 'icon-192x192.png',
-  BASE_PATH + 'icon-512x512.png',
-  BASE_PATH + 'domino.png',
-  BASE_PATH + 'graph.png'
+  base,
+  base + 'index.html',
+  base + 'offline.html',
+  base + 'manifest.json',
+  base + 'icon-192x192.png',
+  base + 'icon-512x512.png',
+  base + 'domino.png',
+  base + 'graph.png'
 ];
 
 self.addEventListener('install', event => {
@@ -24,17 +28,12 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        if (response) {
-          return response;
-        }
+        if (response) return response;
         return fetch(event.request).catch(() => {
           if (event.request.mode === 'navigate') {
-            return caches.match(BASE_PATH + 'offline.html');
+            return caches.match(base + 'offline.html');
           }
-          return new Response('Offline content not available', {
-            status: 503,
-            statusText: 'Service Unavailable'
-          });
+          return new Response('Offline', { status: 503 });
         });
       })
   );
