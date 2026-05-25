@@ -20,14 +20,7 @@
         .bg-domino { background-image: url('domino.png'); filter: grayscale(100%) brightness(196%) contrast(300%) blur(0px); opacity: 1.0; }
         .bg-graph { background-image: url('graph.png'); filter: grayscale(48%) brightness(79%) contrast(300%) blur(0px); opacity: 0.57; }
         .container { position: relative; z-index: 2; max-width: 1280px; margin: 0 auto; }
-        .install-area { 
-            text-align: center; 
-            margin: 1rem auto 2rem auto; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            flex-direction: column; 
-        }
+        .install-area { text-align: center; margin: 1rem auto 2rem auto; display: flex; justify-content: center; align-items: center; flex-direction: column; }
         .install-tooltip { position: relative; display: inline-block; }
         .pwa-icon-btn { background: none; border: none; cursor: pointer; padding: 0; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; transition: transform 0.2s; gap: 0.3rem; font-size: 0.9rem; font-weight: 600; color: #000000; }
         .pwa-icon-btn img { width: 96px; height: 96px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
@@ -48,7 +41,10 @@
         .intro-text p { margin-bottom: 0.8rem; }
         .predict-btn { background: #000000; color: #b0d9b1; border: none; padding: 0.8rem 2rem; border-radius: 50px; font-weight: bold; font-size: 1.3rem; cursor: pointer; transition: 0.2s; margin-top: 1rem; display: inline-block; text-decoration: none; }
         .predict-btn:hover { background: #333; transform: scale(1.02); }
-        footer { text-align: center; margin-top: 3rem; color: #000000; font-size: 0.8rem; }
+        footer { text-align: center; margin-top: 3rem; color: #000000; font-size: 0.85rem; background: rgba(255,255,255,0.3); backdrop-filter: blur(4px); padding: 1.5rem; border-radius: 2rem; }
+        footer p { margin: 0.3rem 0; }
+        footer a { color: #000000; text-decoration: none; margin: 0 0.3rem; border-bottom: 1px dotted rgba(0,0,0,0.3); }
+        footer a:hover { text-decoration: underline; }
         .lang-content { display: none; }
         .lang-content.active { display: block; }
         @media (max-width: 700px) { body { padding: 1rem; } .hero h1 { font-size: 2rem; } }
@@ -68,9 +64,9 @@
                 <img src="icon-192x192.png" alt="Установить приложение" width="96" height="96">
                 <span id="pwaButtonText">Установить</span>
             </button>
-            <span class="tooltip-text" id="pwaTooltip">💡 Нажмите — установите как приложение.</span>
+            <span class="tooltip-text" id="pwaTooltip">💡 Нажмите — установите как приложение.<br>• Chrome/Edge: появится диалог.<br>• iPhone: Поделиться → На экран «Домой».</span>
         </div>
-        <div class="install-note" id="installNote">✅ Нажмите на иконку монитора со стрелкой в адресной строке.</div>
+        <div class="install-note" id="installNote">✅ Нажмите на иконку монитора со стрелкой в адресной строке, чтобы установить приложение. На iPhone: Поделиться → На экран «Домой».</div>
     </div>
 
     <div class="lang-switch">
@@ -84,9 +80,9 @@
             <div class="subhead">Спросите у предсказателя, основанного на теории игр, истории и культурных факторах</div>
         </div>
         <div class="intro-text">
-            <p>🔮 <strong>Что это?</strong> Система, которая анализирует вашу ситуацию через призму теории игр, исторических аналогий и культурно-религиозных особенностей. Вы получаете прогноз с доверительной вероятностью 80%.</p>
+            <p>🔮 <strong>Что это?</strong> Система, которая анализирует вашу ситуацию через призму теории игр, исторических аналогий и культурно-религиозных особенностей. Вы получаете прогноз с доверительной вероятностью 80-98% (остальное — абсолютная непредсказуемость).</p>
             <p>📊 <strong>Как использовать?</strong> Перейдите к опроснику, заполните данные о событии и о себе (анонимно). Чем подробнее вы опишете участников, ресурсы и ограничения, тем точнее будет результат.</p>
-            <p>⚖️ <strong>Принцип работы</strong> — мы не предсказываем будущее, мы вычисляем равновесия на основе матриц выигрышей и прошлых паттернов.</p>
+            <p>⚖️ <strong>Принцип работы</strong> — мы не предсказываем будущее, мы вычисляем равновесия на основе матриц выигрышей, исторических прецедентов и культурных кодов.</p>
         </div>
         <div style="text-align: center;">
             <a href="predict.html" class="predict-btn">🔮 Получить прогноз</a>
@@ -99,16 +95,37 @@
             <div class="subhead">Ask the predictor based on game theory, history and cultural factors</div>
         </div>
         <div class="intro-text">
-            <p>🔮 <strong>What is this?</strong> A system that analyzes your situation through game theory, historical analogies and cultural-religious features. You get a forecast with 80% confidence.</p>
+            <p>🔮 <strong>What is this?</strong> A system that analyzes your situation through game theory, historical analogies and cultural-religious features. You get a forecast with 80-98% confidence (the rest is absolute unpredictability).</p>
             <p>📊 <strong>How to use?</strong> Go to the questionnaire, fill in the event data and your background (anonymous). The more details about participants, resources and constraints, the more accurate the result.</p>
-            <p>⚖️ <strong>How it works</strong> — we don't predict the future, we compute equilibria based on payoff matrices and past patterns.</p>
+            <p>⚖️ <strong>How it works</strong> — we don't predict the future, we compute equilibria based on payoff matrices, historical precedents and cultural codes.</p>
         </div>
         <div style="text-align: center;">
             <a href="predict.html" class="predict-btn">🔮 Get prediction</a>
         </div>
     </div>
 
-    <footer>© HM&amp;GO — предсказательная система</footer>
+    <footer>
+        <div id="footer-ru" style="display: block;">
+            <p>© HM&amp;GO — предсказательная система</p>
+            <p>
+                <a href="privacy.html">Политика конфиденциальности</a> |
+                <a href="terms.html">Условия использования</a> |
+                <a href="robots.txt" target="_blank">robots.txt</a> |
+                <a href="sitemap.xml" target="_blank">sitemap.xml</a> |
+                <a href="humans.txt" target="_blank">humans.txt</a>
+            </p>
+        </div>
+        <div id="footer-en" style="display: none;">
+            <p>© HM&amp;GO — prediction system</p>
+            <p>
+                <a href="privacy.html">Privacy Policy</a> |
+                <a href="terms.html">Terms of Use</a> |
+                <a href="robots.txt" target="_blank">robots.txt</a> |
+                <a href="sitemap.xml" target="_blank">sitemap.xml</a> |
+                <a href="humans.txt" target="_blank">humans.txt</a>
+            </p>
+        </div>
+    </footer>
 </div>
 
 <script>
@@ -118,24 +135,45 @@
         if (deferredPrompt) { deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; }
         else alert('Для установки: Chrome/Edge — значок ⬇️ в адресной строке');
     });
+
     function updatePWATexts(lang) {
         const btn = document.getElementById('pwaButtonText');
-        if (btn) btn.textContent = (lang === 'ru') ? 'Установить' : 'Install';
+        const tooltip = document.getElementById('pwaTooltip');
+        const installNote = document.getElementById('installNote');
+        if (lang === 'ru') {
+            if (btn) btn.textContent = 'Установить';
+            if (tooltip) tooltip.innerHTML = '💡 Нажмите — установите как приложение.<br>• Chrome/Edge: появится диалог.<br>• iPhone: Поделиться → На экран «Домой».';
+            if (installNote) installNote.textContent = '✅ Нажмите на иконку монитора со стрелкой в адресной строке, чтобы установить приложение. На iPhone: Поделиться → На экран «Домой».';
+        } else {
+            if (btn) btn.textContent = 'Install';
+            if (tooltip) tooltip.innerHTML = '💡 Click — install as app.<br>• Chrome/Edge: dialog appears.<br>• iPhone: Share → Add to Home Screen.';
+            if (installNote) installNote.textContent = '✅ Click the monitor icon with a down arrow in the address bar to install the app. On iPhone: Share → Add to Home Screen.';
+        }
     }
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const lang = btn.dataset.lang;
-            document.getElementById('ru-content').classList.toggle('active', lang === 'ru');
-            document.getElementById('en-content').classList.toggle('active', lang === 'en');
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            updatePWATexts(lang);
+
+    function setLanguage(lang) {
+        document.getElementById('ru-content').classList.toggle('active', lang === 'ru');
+        document.getElementById('en-content').classList.toggle('active', lang === 'en');
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
         });
+        updatePWATexts(lang);
+        document.getElementById('footer-ru').style.display = (lang === 'ru') ? 'block' : 'none';
+        document.getElementById('footer-en').style.display = (lang === 'en') ? 'block' : 'none';
+        localStorage.setItem('hmgo_lang', lang);
+    }
+
+    const savedLang = localStorage.getItem('hmgo_lang');
+    const initialLang = (savedLang === 'ru' || savedLang === 'en') ? savedLang : 'ru';
+    setLanguage(initialLang);
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
     });
-    updatePWATexts('ru');
+
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js', { scope: './' }).catch(err => console.warn('SW error:', err));
+            navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(err => console.warn('SW error:', err));
         });
     }
 </script>
