@@ -1,160 +1,97 @@
-// /api/predict.js
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  const data = req.body;
-
-  const situation = data.situation || '';
-  const players = data.players || '';
-  const actions = data.actions || '';
-  const resources = data.resources || '';
-  const timeframe = data.timeframe || '';
-  const gender = data.gender || '';
-  const age = data.age || '';
-  const education = data.education || '';
-  const region = data.region || '';
-
-  // ------------------- РАСШИРЕННАЯ БАЗА ИСТОРИЧЕСКИХ АНАЛОГИЙ -------------------
-  const historicalDB = [
-    { keywords: ['война', 'конфликт', 'вторжение'], analog: 'Вторая мировая война — затяжной конфликт с непредсказуемыми союзами.', outcome: 'высокая нестабильность' },
-    { keywords: ['карибский', 'куба', 'ракеты'], analog: 'Карибский кризис 1962 г. — разрешился дипломатией и созданием "красных линий".', outcome: 'деэскалация через переговоры' },
-    { keywords: ['экономика', 'санкции', 'торговля'], analog: 'Торговая война США-Китай (2018-2020) — обе стороны понесли потери, но никто не получил решающего преимущества.', outcome: 'затяжной конфликт без победителя' },
-    { keywords: ['переговоры', 'мир', 'договор'], analog: 'Хельсинкские соглашения 1975 г. — снижение напряжённости через взаимные уступки.', outcome: 'стабилизация' },
-    { keywords: ['энергия', 'нефть', 'газ'], analog: 'Нефтяной кризис 1973 г. — ресурсы как оружие, привели к рецессии.', outcome: 'экономические потрясения' }
-  ];
-
-  let historicalAnalog = 'Прямых исторических аналогий не найдено. Анализ основан на общей теории игр.';
-  let historicalOutcome = 'неопределён';
-  for (let entry of historicalDB) {
-    if (entry.keywords.some(kw => situation.toLowerCase().includes(kw) || players.toLowerCase().includes(kw))) {
-      historicalAnalog = entry.analog;
-      historicalOutcome = entry.outcome;
-      break;
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method Not Allowed' });
     }
-  }
 
-  // ------------------- КУЛЬТУРНО-РЕЛИГИОЗНЫЕ ФАКТОРЫ -------------------
-  const cultureDB = {
-    ru: { collective: 'высокая', riskAversion: 'средняя', negotiation: 'прямая', religion: 'православие' },
-    ua: { collective: 'средняя', riskAversion: 'средняя', negotiation: 'гибкая', religion: 'православие/грекокатолики' },
-    us: { collective: 'низкая', riskAversion: 'низкая', negotiation: 'формальная', religion: 'протестантизм' },
-    cn: { collective: 'высокая', riskAversion: 'высокая', negotiation: 'иерархическая', religion: 'буддизм/конфуцианство' },
-    il: { collective: 'высокая', riskAversion: 'средняя', negotiation: 'прямая', religion: 'иудаизм' },
-    default: { collective: 'средняя', riskAversion: 'средняя', negotiation: 'смешанная', religion: 'разнообразие' }
-  };
+    const { situation, players, actions, resources, timeframe, region } = req.body;
 
-  let regionKey = 'default';
-  if (region.toLowerCase().includes('россия')) regionKey = 'ru';
-  else if (region.toLowerCase().includes('украина')) regionKey = 'ua';
-  else if (region.toLowerCase().includes('сша') || region.toLowerCase().includes('usa')) regionKey = 'us';
-  else if (region.toLowerCase().includes('китай')) regionKey = 'cn';
-  else if (region.toLowerCase().includes('израиль')) regionKey = 'il';
+    // Определяем тему запроса (на основе ключевых слов)
+    const text = (situation + ' ' + players + ' ' + actions + ' ' + resources).toLowerCase();
+    let topic = 'general';
+    if (text.includes('войн') || text.includes('конфликт') || text.includes('армия')) topic = 'conflict';
+    else if (text.includes('бизнес') || text.includes('сделка') || text.includes('инвестици')) topic = 'business';
+    else if (text.includes('спорт') || text.includes('футбол') || text.includes('чемпионат')) topic = 'sport';
+    else if (text.includes('личное') || text.includes('отношени') || text.includes('здоровье')) topic = 'personal';
 
-  const culture = cultureDB[regionKey];
+    // --- Формируем три варианта с процентами (сумма = 100%) ---
+    let first, second, third, percent1, percent2, percent3;
 
-  // ------------------- АНАЛИЗ НА ОСНОВЕ ТЕОРИИ ИГР -------------------
-  let probability = 50;
-  let reasoning = [];
+    if (topic === 'sport') {
+        first = 'СБОРНАЯ ИСПАНИИ — молодая, сыгранная, фаворит турнира.';
+        second = 'СБОРНАЯ ФРАНЦИИ — самый дорогой состав, опыт финалов.';
+        third = 'СБОРНАЯ АРГЕНТИНЫ — действующий чемпион, но возраст и «проклятие чемпиона».';
+        // Проценты: Испания 55%, Франция 30%, Аргентина 15%
+        percent1 = 55; percent2 = 30; percent3 = 15;
+    } else if (topic === 'conflict') {
+        first = 'Дипломатическое урегулирование — стороны садятся за стол переговоров.';
+        second = 'Военное вмешательство — эскалация с последующим замораживанием.';
+        third = 'Статус-кво — конфликт остаётся нерешённым без активных действий.';
+        percent1 = 60; percent2 = 25; percent3 = 15;
+    } else if (topic === 'business') {
+        first = 'Сделка заключена — стороны приходят к взаимовыгодному соглашению.';
+        second = 'Поглощение — более сильная сторона поглощает слабую.';
+        third = 'Конкурентная борьба — рынок остаётся поделённым.';
+        percent1 = 50; percent2 = 30; percent3 = 20;
+    } else if (topic === 'personal') {
+        first = 'Успех — ситуация разрешается в вашу пользу.';
+        second = 'Компромисс — результат будет приемлемым, но не идеальным.';
+        third = 'Тупик — изменений не произойдёт, потребуется новый подход.';
+        percent1 = 55; percent2 = 30; percent3 = 15;
+    } else {
+        first = 'Оптимистичный сценарий — ситуация развивается в позитивном ключе.';
+        second = 'Нейтральный сценарий — существенных изменений не произойдёт.';
+        third = 'Пессимистичный сценарий — возможны негативные последствия.';
+        percent1 = 50; percent2 = 30; percent3 = 20;
+    }
 
-  // Ситуация
-  const sitLow = situation.toLowerCase();
-  if (sitLow.includes('война') || sitLow.includes('конфликт')) {
-    probability += 20;
-    reasoning.push('Конфликтный контекст повышает неопределённость.');
-  } else if (sitLow.includes('переговоры') || sitLow.includes('договор')) {
-    probability -= 15;
-    reasoning.push('Упоминание переговоров снижает вероятность эскалации.');
-  }
-  if (sitLow.includes('экономика') || sitLow.includes('рынок')) {
-    probability += 10;
-    reasoning.push('Экономические факторы влияют на долгосрочный прогноз.');
-  }
+    // Убеждаемся, что сумма = 100%
+    const total = percent1 + percent2 + percent3;
+    if (total !== 100) {
+        // Нормализуем
+        const factor = 100 / total;
+        percent1 = Math.round(percent1 * factor);
+        percent2 = Math.round(percent2 * factor);
+        percent3 = 100 - percent1 - percent2;
+    }
 
-  // Участники
-  const playersLow = players.toLowerCase();
-  if (playersLow.includes('сша') || playersLow.includes('россия') || playersLow.includes('китай')) {
-    probability += 15;
-    reasoning.push('Крупные державы — высокая непредсказуемость.');
-  }
+    // Культурный контекст
+    let culturalNote = '';
+    if (region && region.toLowerCase().includes('кипр')) {
+        culturalNote = '🌍 Культурный контекст (Кипр): коллективизм, толерантность, православие — важно сохранять лицо.';
+    } else if (region && region.toLowerCase().includes('росси')) {
+        culturalNote = '🌍 Культурный контекст (Россия): индивидуализм в бизнесе, коллективизм в кризис.';
+    } else if (region && region.toLowerCase().includes('сша')) {
+        culturalNote = '🌍 Культурный контекст (США): прагматизм, скорость, индивидуализм.';
+    } else {
+        culturalNote = '🌍 Универсальный контекст: учитывайте местные обычаи и религиозные нормы.';
+    }
 
-  // Ресурсы
-  const resLow = resources.toLowerCase();
-  if (resLow.includes('нефть') || resLow.includes('газ')) {
-    probability -= 5;
-    reasoning.push('Энергоресурсы могут служить рычагом давления.');
-  }
-  if (resLow.includes('ограничен') || resLow.includes('дефицит')) {
-    probability += 10;
-    reasoning.push('Дефицит ресурсов усиливает конфликтность.');
-  }
+    // Историческая аналогия
+    let historyAnalog = '';
+    if (topic === 'sport') {
+        historyAnalog = '📜 Историческая аналогия: ЧМ-2010 — Испания победила благодаря командной игре.';
+    } else if (topic === 'conflict') {
+        historyAnalog = '📜 Историческая аналогия: Карибский кризис 1962 года — дипломатия и риск.';
+    } else if (topic === 'business') {
+        historyAnalog = '📜 Историческая аналогия: IPO Google — стратегический выход на рынок.';
+    } else {
+        historyAnalog = '📜 Историческая аналогия: Хельсинкские соглашения 1975 года — диалог и компромисс.';
+    }
 
-  // Время
-  if (timeframe.includes('год') || timeframe.includes('year')) {
-    probability += 5;
-    reasoning.push('Долгосрочный горизонт увеличивает неопределённость.');
-  } else if (timeframe.includes('месяц') || timeframe.includes('неделя')) {
-    probability -= 5;
-    reasoning.push('Краткосрочный прогноз более надёжен.');
-  }
+    const prediction = `
+🔮 **ПРОГНОЗ**
 
-  // Культурные корректировки
-  if (culture.collective === 'высокая') {
-    probability += 5;
-    reasoning.push('Коллективистская культура: решения могут приниматься группой, снижая риск спонтанных действий.');
-  } else if (culture.collective === 'низкая') {
-    probability -= 5;
-    reasoning.push('Индивидуалистическая культура: больше личной инициативы, выше непредсказуемость.');
-  }
-  if (culture.riskAversion === 'высокая') {
-    probability -= 10;
-    reasoning.push('Высокое неприятие риска: стороны будут избегать крайних мер.');
-  } else if (culture.riskAversion === 'низкая') {
-    probability += 10;
-    reasoning.push('Низкое неприятие риска: возможны рискованные шаги.');
-  }
+**1 место (наиболее вероятный):** ${first} — ${percent1}%
+**2 место (альтернативный):** ${second} — ${percent2}%
+**3 место (наименее вероятный):** ${third} — ${percent3}%
 
-  // Ограничим вероятность
-  probability = Math.min(98, Math.max(2, probability)); // оставляем 2% на абсолютную непредсказуемость
+**Итог:** ${first} (${percent1}%) — основной сценарий.
 
-  // Оценка точности на основе полноты данных
-  let filledFields = 0;
-  if (situation) filledFields++;
-  if (players) filledFields++;
-  if (actions) filledFields++;
-  if (resources) filledFields++;
-  if (timeframe) filledFields++;
-  let confidence = 50 + filledFields * 5;
-  confidence = Math.min(95, confidence);
+${historyAnalog}
+${culturalNote}
 
-  // Вердикт
-  let verdict = '';
-  if (probability >= 70) {
-    verdict = 'Высокая вероятность неблагоприятного исхода. Рекомендуется пересмотреть стратегию или привлечь посредника.';
-  } else if (probability <= 30) {
-    verdict = 'Низкая вероятность негативного сценария. Текущая стратегия выглядит устойчивой.';
-  } else {
-    verdict = 'Умеренная вероятность. Оптимальный ход — гибкая адаптация к действиям оппонента.';
-  }
+⚡ **Важно:** прогноз основан на анализе ситуации. События могут развиваться по любому сценарию, но наиболее вероятный — первый.
+    `;
 
-  // Формирование полного текста прогноза
-  let predictionText = `${verdict}\n\n`;
-  predictionText += `📜 **Историческая аналогия:** ${historicalAnalog}\n`;
-  predictionText += `🌍 **Культурно-религиозный контекст (${region || 'регион не указан'}):** коллективизм — ${culture.collective}, риск-аверсия — ${culture.riskAversion}, стиль переговоров — ${culture.negotiation}, религия — ${culture.religion}.\n\n`;
-  predictionText += `📊 **Анализ теории игр:**\n${reasoning.join(' ')}\n\n`;
-  predictionText += `🎯 **Прогнозная вероятность (по шкале 0-100):** ${probability}%\n`;
-  predictionText += `✅ **Точность оценки (на основе полноты данных):** ${confidence}%.\n`;
-  if (age && education) predictionText += `👤 Учтены ваши возраст (${age}) и образование (${education}).\n`;
-  predictionText += `\n⚠️ Остальные ${100 - probability}% — абсолютная непредсказуемость (черные лебеди, форс-мажор).`;
-
-  res.status(200).json({
-    success: true,
-    prediction: predictionText,
-    probability: probability,
-    confidence: confidence,
-    reasoning: reasoning,
-    historical: historicalAnalog,
-    cultural: culture
-  });
+    return res.status(200).json({ success: true, prediction: prediction.trim() });
 }
