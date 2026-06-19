@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>HM&amp;GO — Оракул</title>
-    <link rel="canonical" href="https://hmgo.vercel.app/">
+    <!-- МЕТА-ТЕГ ДЛЯ ОТКЛЮЧЕНИЯ КЕША -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -46,7 +49,6 @@
         .big-btn:hover { background: #b06a4a; transform: scale(1.02); }
         .section { display: none; }
         .section.active { display: block; }
-        /* Контакты */
         .contact-section {
             background: rgba(255,255,255,0.3);
             backdrop-filter: blur(2px);
@@ -92,7 +94,6 @@
             box-shadow: none;
             font-size: 1.4rem;
         }
-        /* Платёжный модуль */
         .payment-module {
             background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(4px);
@@ -153,11 +154,11 @@
         <div class="install-tooltip">
             <button id="pwa-install-icon" class="pwa-icon-btn">
                 <img src="icon-192x192.png" alt="Установить приложение" width="96" height="96">
-                <span id="pwaButtonText" data-i18n="pwa_button_text">Установить</span>
+                <span id="pwaButtonText">Установить</span>
             </button>
-            <span class="tooltip-text" id="pwaTooltip" data-i18n="pwa_tooltip">💡 Нажмите — установите как приложение.<br>• Chrome/Edge: появится диалог.<br>• iPhone: Поделиться → На экран «Домой».</span>
+            <span class="tooltip-text" id="pwaTooltip">💡 Нажмите — установите как приложение.<br>• Chrome/Edge: появится диалог.<br>• iPhone: Поделиться → На экран «Домой».</span>
         </div>
-        <div class="install-note" id="installNote" data-i18n="pwa_note">✅ Нажмите на иконку монитора со стрелкой в адресной строке, чтобы установить приложение. На iPhone: Поделиться → На экран «Домой».</div>
+        <div class="install-note" id="installNote">✅ Нажмите на иконку монитора со стрелкой в адресной строке, чтобы установить приложение. На iPhone: Поделиться → На экран «Домой».</div>
     </div>
 
     <div class="lang-switch">
@@ -218,7 +219,7 @@
                     <input type="number" id="crypto-amount" value="10" min="1" step="1" style="width: 120px; padding: 0.3rem; border-radius: 2rem; border: 1px solid #c17b5a;">
                 </div>
                 <div style="text-align: center;">
-                    <button type="button" id="crypto-pay-btn" class="big-btn" style="background: #2c5f2d; font-size: 1rem; padding: 0.6rem 1.5rem;" data-i18n="payment_crypto_btn">🪙 Оплатить криптой</button>
+                    <button id="crypto-pay-btn" class="big-btn" style="background: #2c5f2d; font-size: 1rem; padding: 0.6rem 1.5rem;" data-i18n="payment_crypto_btn">🪙 Оплатить криптой</button>
                 </div>
                 <p style="font-size: 0.7rem; text-align: center; margin-top: 0.8rem;" data-i18n="payment_crypto_note">Клиент выбирает валюту на странице оплаты</p>
             </div>
@@ -287,81 +288,40 @@
 </div>
 
 <script>
-    // ==================== ПЕРЕВОДЫ ====================
-    const translations = {
-        ru: {
-            pwa_button_text: 'Установить',
-            pwa_tooltip: '💡 Нажмите — установите как приложение.\n• Chrome/Edge: появится диалог.\n• iPhone: Поделиться → На экран «Домой».',
-            pwa_note: '✅ Нажмите на иконку монитора со стрелкой в адресной строке, чтобы установить приложение. На iPhone: Поделиться → На экран «Домой».',
-            payment_fiat_title: 'Обычные деньги',
-            payment_fiat_desc: 'Visa, Mastercard, Apple Pay, Google Pay',
-            payment_fiat_btn: '💳 Оплатить картой',
-            payment_fiat_currencies: 'Принимаем: евро, доллары, франки, йены, юани',
-            payment_crypto_title: 'Цифровые деньги',
-            payment_crypto_desc: 'Bitcoin, Ethereum, USDT, и 350+ других',
-            payment_crypto_btn: '🪙 Оплатить криптой',
-            payment_crypto_note: 'Клиент выбирает валюту на странице оплаты',
-            payment_amount: 'Сумма (€):',
-            payment_note_title: 'Индивидуальные условия',
-            payment_note_text: 'Для крупных сделок, корпоративных заказов или нестандартных условий, пожалуйста, ',
-            payment_note_link: 'свяжитесь с нами',
-            payment_note_text2: ' для выставления персонального инвойса и согласования деталей.',
-            contact_title: 'Свяжитесь с нами',
-            contact_note: 'Мы открыты для диалога и новых проектов.'
-        },
-        en: {
-            pwa_button_text: 'Install',
-            pwa_tooltip: '💡 Click — install as app.\n• Chrome/Edge: dialog appears.\n• iPhone: Share → Add to Home Screen.',
-            pwa_note: '✅ Click the monitor icon with a down arrow in the address bar to install the app. On iPhone: Share → Add to Home Screen.',
-            payment_fiat_title: 'Fiat Money',
-            payment_fiat_desc: 'Visa, Mastercard, Apple Pay, Google Pay',
-            payment_fiat_btn: '💳 Pay by card',
-            payment_fiat_currencies: 'We accept: EUR, USD, CHF, JPY, CNY',
-            payment_crypto_title: 'Digital Money',
-            payment_crypto_desc: 'Bitcoin, Ethereum, USDT, and 350+ others',
-            payment_crypto_btn: '🪙 Pay with crypto',
-            payment_crypto_note: 'Customer chooses currency on payment page',
-            payment_amount: 'Amount (€):',
-            payment_note_title: 'Custom terms',
-            payment_note_text: 'For large deals, corporate orders or special conditions, please ',
-            payment_note_link: 'contact us',
-            payment_note_text2: ' to issue a personal invoice and agree on details.',
-            contact_title: 'Contact us',
-            contact_note: 'We are open for dialogue and new projects.'
-        }
-    };
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
+    document.getElementById('pwa-install-icon')?.addEventListener('click', async () => {
+        if (deferredPrompt) { deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; }
+        else alert('Для установки: Chrome/Edge — значок ⬇️ в адресной строке');
+    });
 
-    // ==================== УСТАНОВКА ЯЗЫКА ====================
+    function updatePWATexts(lang) {
+        const btn = document.getElementById('pwaButtonText');
+        const tooltip = document.getElementById('pwaTooltip');
+        const installNote = document.getElementById('installNote');
+        if (lang === 'ru') {
+            if (btn) btn.textContent = 'Установить';
+            if (tooltip) tooltip.innerHTML = '💡 Нажмите — установите как приложение.<br>• Chrome/Edge: появится диалог.<br>• iPhone: Поделиться → На экран «Домой».';
+            if (installNote) installNote.textContent = '✅ Нажмите на иконку монитора со стрелкой в адресной строке, чтобы установить приложение. На iPhone: Поделиться → На экран «Домой».';
+        } else {
+            if (btn) btn.textContent = 'Install';
+            if (tooltip) tooltip.innerHTML = '💡 Click — install as app.<br>• Chrome/Edge: dialog appears.<br>• iPhone: Share → Add to Home Screen.';
+            if (installNote) installNote.textContent = '✅ Click the monitor icon with a down arrow in the address bar to install the app. On iPhone: Share → Add to Home Screen.';
+        }
+    }
+
     function setLanguage(lang) {
-        // Переключение контента
         document.getElementById('ru-content').classList.toggle('active', lang === 'ru');
         document.getElementById('en-content').classList.toggle('active', lang === 'en');
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.lang === lang);
         });
-
-        // Применение переводов ко всем элементам с data-i18n
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            if (translations[lang] && translations[lang][key]) {
-                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                    el.placeholder = translations[lang][key];
-                } else if (el.tagName === 'SPAN' || el.tagName === 'DIV' || el.tagName === 'P' || el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'H3' || el.tagName === 'BUTTON' || el.tagName === 'A') {
-                    el.innerHTML = translations[lang][key];
-                } else {
-                    el.textContent = translations[lang][key];
-                }
-            }
-        });
-
-        // Футер
+        updatePWATexts(lang);
         document.getElementById('footer-ru').style.display = (lang === 'ru') ? 'block' : 'none';
         document.getElementById('footer-en').style.display = (lang === 'en') ? 'block' : 'none';
-
         localStorage.setItem('hmgo_lang', lang);
     }
 
-    // ==================== ИНИЦИАЛИЗАЦИЯ ====================
     const savedLang = localStorage.getItem('hmgo_lang');
     const initialLang = (savedLang === 'ru' || savedLang === 'en') ? savedLang : 'ru';
     setLanguage(initialLang);
@@ -370,25 +330,10 @@
         btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
     });
 
-    // ==================== PWA ====================
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
-    document.getElementById('pwa-install-icon')?.addEventListener('click', async () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            await deferredPrompt.userChoice;
-            deferredPrompt = null;
-        } else {
-            alert('Для установки: Chrome/Edge — значок ⬇️ в адресной строке');
-        }
-    });
-
     // ==================== ПЛАТЁЖНЫЙ МОДУЛЬ ====================
     document.getElementById('fiat-pay-btn')?.addEventListener('click', function() {
         const amount = document.getElementById('fiat-amount').value;
-        const lang = localStorage.getItem('hmgo_lang') || 'ru';
-        const title = translations[lang]?.payment_fiat_title || 'Обычные деньги';
-        alert(`💳 ${title}: €${amount}\n\n${translations[lang]?.payment_note_text || ''}${translations[lang]?.payment_note_link || ''}${translations[lang]?.payment_note_text2 || ''}`);
+        alert(`💳 Оплата картой: €${amount}\n\nДля крупных сделок свяжитесь с нами.`);
     });
 
     document.getElementById('crypto-pay-btn')?.addEventListener('click', async function() {
@@ -426,7 +371,7 @@
         }
     });
 
-    // ==================== ПЛАВНАЯ ПРОКРУТКА К КОНТАКТАМ ====================
+    // Плавная прокрутка к контактам
     document.querySelector('a[href="#contact"]')?.addEventListener('click', function(e) {
         e.preventDefault();
         const target = document.getElementById('contact');
@@ -435,7 +380,6 @@
         }
     });
 
-    // ==================== SERVICE WORKER ====================
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(err => console.warn('SW error:', err));
