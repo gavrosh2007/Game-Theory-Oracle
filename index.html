@@ -66,6 +66,45 @@
             background: #b06a4a;
             transform: scale(1.02);
         }
+        .contact-section {
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(2px);
+            border-radius: 40px;
+            padding: 3rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+        .contact-info {
+            display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem;
+        }
+        .contact-row {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;
+        }
+        .contact-item {
+            font-size: 1.3rem;
+            background: rgba(255,255,255,0.6);
+            padding: 0.8rem 1.5rem;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: 0.2s;
+            border: 1px solid rgba(193,123,90,0.3);
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .contact-item:hover {
+            background: #c17b5a;
+            color: white;
+            border-color: #c17b5a;
+        }
+        .contact-item:last-child {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            font-size: 1.4rem;
+        }
         footer { text-align: center; margin-top: 3rem; color: #000000; font-size: 0.85rem; background: rgba(255,255,255,0.3); backdrop-filter: blur(4px); padding: 1.5rem; border-radius: 2rem; }
         footer p { margin: 0.3rem 0; }
         footer a { color: #000000; text-decoration: none; margin: 0 0.3rem; border-bottom: 1px dotted rgba(0,0,0,0.3); }
@@ -102,6 +141,65 @@
         <div style="text-align: center;">
             <a href="predict.html" class="predict-btn">🔮 Получить прогноз</a>
         </div>
+
+        <!-- ПЛАТЁЖНЫЙ МОДУЛЬ -->
+        <div class="payment-module">
+            <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
+                <div style="flex: 1; min-width: 280px; background: rgba(255,255,255,0.4); backdrop-filter: blur(4px); border-radius: 2rem; padding: 1.5rem; border: 1px solid rgba(193,123,90,0.3);">
+                    <h3 style="color: #c17b5a; text-align: center;">💳 <span class="i18n" data-key="payment_fiat_title">Обычные деньги</span></h3>
+                    <p style="text-align: center; font-size: 0.9rem;"><span class="i18n" data-key="payment_fiat_desc">Visa, Mastercard, Apple Pay, Google Pay</span></p>
+                    <div style="text-align: center; margin: 1rem 0;">
+                        <label style="font-weight: bold;"><span class="i18n" data-key="payment_amount">Сумма (€):</span></label>
+                        <input type="number" id="fiat-amount" value="10" min="1" step="1" style="width: 120px; padding: 0.3rem; border-radius: 2rem; border: 1px solid #c17b5a;">
+                    </div>
+                    <div style="text-align: center;">
+                        <button id="fiat-pay-btn" class="big-btn" style="background: #2c5f2d; font-size: 1rem; padding: 0.6rem 1.5rem;"><span class="i18n" data-key="payment_fiat_btn">💳 Оплатить картой</span></button>
+                    </div>
+                    <p style="font-size: 0.7rem; text-align: center; margin-top: 0.8rem;"><span class="i18n" data-key="payment_fiat_currencies">Принимаем: евро, доллары, франки, йены, юани</span></p>
+                </div>
+                <div style="flex: 1; min-width: 280px; background: rgba(255,255,255,0.4); backdrop-filter: blur(4px); border-radius: 2rem; padding: 1.5rem; border: 1px solid rgba(193,123,90,0.3);">
+                    <h3 style="color: #c17b5a; text-align: center;">🪙 <span class="i18n" data-key="payment_crypto_title">Цифровые деньги</span></h3>
+                    <p style="text-align: center; font-size: 0.9rem;"><span class="i18n" data-key="payment_crypto_desc">Bitcoin, Ethereum, USDT, и 350+ других</span></p>
+                    <div style="text-align: center; margin: 1rem 0;">
+                        <label style="font-weight: bold;"><span class="i18n" data-key="payment_amount">Сумма (€):</span></label>
+                        <input type="number" id="crypto-amount" value="10" min="1" step="1" style="width: 120px; padding: 0.3rem; border-radius: 2rem; border: 1px solid #c17b5a;">
+                    </div>
+                    <div style="text-align: center;">
+                        <button id="crypto-pay-btn" class="big-btn" style="background: #2c5f2d; font-size: 1rem; padding: 0.6rem 1.5rem;"><span class="i18n" data-key="payment_crypto_btn">🪙 Оплатить криптой</span></button>
+                    </div>
+                    <p style="font-size: 0.7rem; text-align: center; margin-top: 0.8rem;"><span class="i18n" data-key="payment_crypto_note">Клиент выбирает валюту на странице оплаты</span></p>
+                </div>
+            </div>
+        </div>
+        <!-- КОНЕЦ ПЛАТЁЖНОГО МОДУЛЯ -->
+
+        <!-- КОНТАКТЫ -->
+        <section id="contact" class="section active">
+            <div class="contact-section">
+                <h2 style="font-size: 2.5rem; font-weight: 300; color: #c17b5a;"><span class="i18n" data-key="contact_title">Свяжитесь с нами</span></h2>
+                <div class="contact-info">
+                    <div class="contact-row">
+                        <a href="tel:+35799453575" class="contact-item">📞 +357 99 453575</a>
+                        <a href="tel:+35799486511" class="contact-item">📞 +357 99 486511</a>
+                        <a href="https://wa.me/35799453575" target="_blank" class="contact-item">💬 WhatsApp +357 99 453575</a>
+                        <a href="https://wa.me/35799486511" target="_blank" class="contact-item">💬 WhatsApp +357 99 486511</a>
+                        <span class="contact-item" style="background: transparent; border: none; font-size: 1.4rem;">Viber: +357 99 453575, +357 99 486511</span>
+                    </div>
+                    <div class="contact-row">
+                        <a href="mailto:gavrosh2007@gmail.com" class="contact-item">✉️ gavrosh2007@gmail.com</a>
+                    </div>
+                    <div class="contact-row">
+                        <a href="https://t.me/faufautua" target="_blank" class="contact-item">📱 @faufautua</a>
+                        <a href="https://t.me/artboutique22" target="_blank" class="contact-item">📱 t.me/artboutique22</a>
+                        <a href="https://t.me/hermesmcltd" target="_blank" class="contact-item">📱 @hermesmcltd</a>
+                        <a href="https://t.me/hermesmcbot" target="_blank" class="contact-item">🤖 @hermesmcbot</a>
+                        <a href="https://t.me/RBartsalonBot" target="_blank" class="contact-item">🤖 @RBartsalonBot</a>
+                    </div>
+                </div>
+                <p style="margin-top: 2rem; font-size: 1.3rem;"><span class="i18n" data-key="contact_note">Мы открыты для диалога и новых проектов.</span></p>
+            </div>
+        </section>
+        <!-- КОНЕЦ КОНТАКТОВ -->
     </div>
 
     <div id="en-content" class="lang-content">
@@ -117,6 +215,65 @@
         <div style="text-align: center;">
             <a href="predict.html" class="predict-btn">🔮 Get prediction</a>
         </div>
+
+        <!-- ПЛАТЁЖНЫЙ МОДУЛЬ (английский) -->
+        <div class="payment-module">
+            <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
+                <div style="flex: 1; min-width: 280px; background: rgba(255,255,255,0.4); backdrop-filter: blur(4px); border-radius: 2rem; padding: 1.5rem; border: 1px solid rgba(193,123,90,0.3);">
+                    <h3 style="color: #c17b5a; text-align: center;">💳 <span class="i18n" data-key="payment_fiat_title">Fiat Money</span></h3>
+                    <p style="text-align: center; font-size: 0.9rem;"><span class="i18n" data-key="payment_fiat_desc">Visa, Mastercard, Apple Pay, Google Pay</span></p>
+                    <div style="text-align: center; margin: 1rem 0;">
+                        <label style="font-weight: bold;"><span class="i18n" data-key="payment_amount">Amount (€):</span></label>
+                        <input type="number" id="fiat-amount-en" value="10" min="1" step="1" style="width: 120px; padding: 0.3rem; border-radius: 2rem; border: 1px solid #c17b5a;">
+                    </div>
+                    <div style="text-align: center;">
+                        <button id="fiat-pay-btn-en" class="big-btn" style="background: #2c5f2d; font-size: 1rem; padding: 0.6rem 1.5rem;"><span class="i18n" data-key="payment_fiat_btn">💳 Pay with card</span></button>
+                    </div>
+                    <p style="font-size: 0.7rem; text-align: center; margin-top: 0.8rem;"><span class="i18n" data-key="payment_fiat_currencies">We accept: EUR, USD, CHF, JPY, CNY</span></p>
+                </div>
+                <div style="flex: 1; min-width: 280px; background: rgba(255,255,255,0.4); backdrop-filter: blur(4px); border-radius: 2rem; padding: 1.5rem; border: 1px solid rgba(193,123,90,0.3);">
+                    <h3 style="color: #c17b5a; text-align: center;">🪙 <span class="i18n" data-key="payment_crypto_title">Cryptocurrency</span></h3>
+                    <p style="text-align: center; font-size: 0.9rem;"><span class="i18n" data-key="payment_crypto_desc">Bitcoin, Ethereum, USDT, and 350+ others</span></p>
+                    <div style="text-align: center; margin: 1rem 0;">
+                        <label style="font-weight: bold;"><span class="i18n" data-key="payment_amount">Amount (€):</span></label>
+                        <input type="number" id="crypto-amount-en" value="10" min="1" step="1" style="width: 120px; padding: 0.3rem; border-radius: 2rem; border: 1px solid #c17b5a;">
+                    </div>
+                    <div style="text-align: center;">
+                        <button id="crypto-pay-btn-en" class="big-btn" style="background: #2c5f2d; font-size: 1rem; padding: 0.6rem 1.5rem;"><span class="i18n" data-key="payment_crypto_btn">🪙 Pay with crypto</span></button>
+                    </div>
+                    <p style="font-size: 0.7rem; text-align: center; margin-top: 0.8rem;"><span class="i18n" data-key="payment_crypto_note">Client chooses currency on payment page</span></p>
+                </div>
+            </div>
+        </div>
+        <!-- КОНЕЦ ПЛАТЁЖНОГО МОДУЛЯ -->
+
+        <!-- КОНТАКТЫ (английский) -->
+        <section id="contact-en" class="section active">
+            <div class="contact-section">
+                <h2 style="font-size: 2.5rem; font-weight: 300; color: #c17b5a;"><span class="i18n" data-key="contact_title">Contact us</span></h2>
+                <div class="contact-info">
+                    <div class="contact-row">
+                        <a href="tel:+35799453575" class="contact-item">📞 +357 99 453575</a>
+                        <a href="tel:+35799486511" class="contact-item">📞 +357 99 486511</a>
+                        <a href="https://wa.me/35799453575" target="_blank" class="contact-item">💬 WhatsApp +357 99 453575</a>
+                        <a href="https://wa.me/35799486511" target="_blank" class="contact-item">💬 WhatsApp +357 99 486511</a>
+                        <span class="contact-item" style="background: transparent; border: none; font-size: 1.4rem;">Viber: +357 99 453575, +357 99 486511</span>
+                    </div>
+                    <div class="contact-row">
+                        <a href="mailto:gavrosh2007@gmail.com" class="contact-item">✉️ gavrosh2007@gmail.com</a>
+                    </div>
+                    <div class="contact-row">
+                        <a href="https://t.me/faufautua" target="_blank" class="contact-item">📱 @faufautua</a>
+                        <a href="https://t.me/artboutique22" target="_blank" class="contact-item">📱 t.me/artboutique22</a>
+                        <a href="https://t.me/hermesmcltd" target="_blank" class="contact-item">📱 @hermesmcltd</a>
+                        <a href="https://t.me/hermesmcbot" target="_blank" class="contact-item">🤖 @hermesmcbot</a>
+                        <a href="https://t.me/RBartsalonBot" target="_blank" class="contact-item">🤖 @RBartsalonBot</a>
+                    </div>
+                </div>
+                <p style="margin-top: 2rem; font-size: 1.3rem;"><span class="i18n" data-key="contact_note">We are open for dialogue and new projects.</span></p>
+            </div>
+        </section>
+        <!-- КОНЕЦ КОНТАКТОВ -->
     </div>
 
     <footer>
@@ -144,11 +301,46 @@
 </div>
 
 <script>
+    const translations = {
+        ru: {
+            payment_fiat_title: 'Обычные деньги',
+            payment_fiat_desc: 'Visa, Mastercard, Apple Pay, Google Pay',
+            payment_amount: 'Сумма (€):',
+            payment_fiat_btn: '💳 Оплатить картой',
+            payment_fiat_currencies: 'Принимаем: евро, доллары, франки, йены, юани',
+            payment_crypto_title: 'Цифровые деньги',
+            payment_crypto_desc: 'Bitcoin, Ethereum, USDT, и 350+ других',
+            payment_crypto_btn: '🪙 Оплатить криптой',
+            payment_crypto_note: 'Клиент выбирает валюту на странице оплаты',
+            contact_title: 'Свяжитесь с нами',
+            contact_note: 'Мы открыты для диалога и новых проектов.'
+        },
+        en: {
+            payment_fiat_title: 'Fiat Money',
+            payment_fiat_desc: 'Visa, Mastercard, Apple Pay, Google Pay',
+            payment_amount: 'Amount (€):',
+            payment_fiat_btn: '💳 Pay with card',
+            payment_fiat_currencies: 'We accept: EUR, USD, CHF, JPY, CNY',
+            payment_crypto_title: 'Cryptocurrency',
+            payment_crypto_desc: 'Bitcoin, Ethereum, USDT, and 350+ others',
+            payment_crypto_btn: '🪙 Pay with crypto',
+            payment_crypto_note: 'Client chooses currency on payment page',
+            contact_title: 'Contact us',
+            contact_note: 'We are open for dialogue and new projects.'
+        }
+    };
+
     function setLanguage(lang) {
         document.getElementById('ru-content').classList.toggle('active', lang === 'ru');
         document.getElementById('en-content').classList.toggle('active', lang === 'en');
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        document.querySelectorAll('.i18n').forEach(el => {
+            const key = el.dataset.key;
+            if (translations[lang] && translations[lang][key]) {
+                el.textContent = translations[lang][key];
+            }
         });
         document.getElementById('footer-ru').style.display = (lang === 'ru') ? 'block' : 'none';
         document.getElementById('footer-en').style.display = (lang === 'en') ? 'block' : 'none';
@@ -161,6 +353,53 @@
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+    });
+
+    // Платёжные кнопки
+    document.getElementById('fiat-pay-btn')?.addEventListener('click', function() {
+        const amount = document.getElementById('fiat-amount').value;
+        alert(`💳 Оплата картой: €${amount}\n\nДля крупных сделок свяжитесь с нами.`);
+    });
+
+    document.getElementById('fiat-pay-btn-en')?.addEventListener('click', function() {
+        const amount = document.getElementById('fiat-amount-en').value;
+        alert(`💳 Card payment: €${amount}\n\nFor large deals, please contact us.`);
+    });
+
+    document.getElementById('crypto-pay-btn')?.addEventListener('click', async function() {
+        const amount = parseFloat(document.getElementById('crypto-amount').value);
+        if (isNaN(amount) || amount < 1) { alert('Введите корректную сумму'); return; }
+        const btn = this; const originalText = btn.textContent;
+        btn.disabled = true; btn.textContent = '⏳ Создание платежа...';
+        try {
+            const response = await fetch('/api/create-invoice', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ price: amount, currency: 'eur', description: `Payment: ${amount} EUR` })
+            });
+            const data = await response.json();
+            if (response.ok && data.invoice_url) { window.open(data.invoice_url, '_blank'); }
+            else { alert('Ошибка создания платежа'); }
+        } catch (error) { alert('Ошибка соединения с сервером'); }
+        finally { btn.disabled = false; btn.textContent = originalText; }
+    });
+
+    document.getElementById('crypto-pay-btn-en')?.addEventListener('click', async function() {
+        const amount = parseFloat(document.getElementById('crypto-amount-en').value);
+        if (isNaN(amount) || amount < 1) { alert('Enter a valid amount'); return; }
+        const btn = this; const originalText = btn.textContent;
+        btn.disabled = true; btn.textContent = '⏳ Creating invoice...';
+        try {
+            const response = await fetch('/api/create-invoice', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ price: amount, currency: 'eur', description: `Payment: ${amount} EUR` })
+            });
+            const data = await response.json();
+            if (response.ok && data.invoice_url) { window.open(data.invoice_url, '_blank'); }
+            else { alert('Error creating payment'); }
+        } catch (error) { alert('Network error'); }
+        finally { btn.disabled = false; btn.textContent = originalText; }
     });
 </script>
 </body>
