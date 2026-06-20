@@ -6,6 +6,20 @@ export default async function handler(req, res) {
     const { situation, players, actions, resources, timeframe, region } = req.body;
     const query = `${situation} ${players} ${actions} ${resources} ${timeframe} ${region}`.toLowerCase();
 
+    // ---- КОНФЛИКТЫ (Украина-РФ) ----
+    if (query.includes('украин') && query.includes('росси')) {
+        const prediction = `
+🔮 **ОРУЖИЕ ОРАКУЛА**
+
+**Ответ:** 50% — завершится в 2026–2027 гг. (заморозка)  
+**Ответ:** 30% — завершится в 2029–2030 гг. (прекращение огня)  
+**Ответ:** 20% — затянется на 20+ лет (как Кипр, 1974).
+
+**Основание:** конфликт элит (средний возраст ~60 лет). Историческая аналогия — Кипр (1974).
+        `;
+        return res.status(200).json({ success: true, prediction: prediction.trim() });
+    }
+
     // ---- СПОРТ (футбол) ----
     if (query.includes('футбол') || query.includes('чемпионат') || query.includes('спорт') || query.includes('победитель') || query.includes('матч')) {
         const prediction = `
@@ -23,7 +37,7 @@ export default async function handler(req, res) {
         return res.status(200).json({ success: true, prediction: prediction.trim() });
     }
 
-    // ---- МИГРАЦИЯ ЖИВОТНЫХ (киты, кашалоты) ----
+    // ---- МИГРАЦИЯ ЖИВОТНЫХ ----
     if (query.includes('кит') || query.includes('кашалот') || query.includes('миграц')) {
         const prediction = `
 🔮 **ОРУЖИЕ ОРАКУЛА**
@@ -41,7 +55,7 @@ export default async function handler(req, res) {
     }
 
     // ---- ВИНО (урожай, марка, год) ----
-    if (query.includes('вино') || query.includes('урожай') || query.includes('марка') || query.includes('год') || query.includes('виноград')) {
+    if (query.includes('вино') || query.includes('урожай') || query.includes('марка') || query.includes('виноград')) {
         const prediction = `
 🔮 **ОРУЖИЕ ОРАКУЛА**
 
@@ -53,20 +67,6 @@ export default async function handler(req, res) {
 3. 2018 год — 20% (хороший, но уступает 2021)
 
 **Основание:** анализ климатических условий, отзывов сомелье и урожайности.
-        `;
-        return res.status(200).json({ success: true, prediction: prediction.trim() });
-    }
-
-    // ---- КОНФЛИКТЫ (Украина-РФ) ----
-    if (query.includes('украин') && query.includes('росси')) {
-        const prediction = `
-🔮 **ОРУЖИЕ ОРАКУЛА**
-
-**Ответ:** 50% — завершится в 2026–2027 гг. (заморозка)  
-**Ответ:** 30% — завершится в 2029–2030 гг. (прекращение огня)  
-**Ответ:** 20% — затянется на 20+ лет (как Кипр, 1974).
-
-**Основание:** конфликт элит (средний возраст ~60 лет). Историческая аналогия — Кипр (1974).
         `;
         return res.status(200).json({ success: true, prediction: prediction.trim() });
     }
@@ -88,7 +88,7 @@ export default async function handler(req, res) {
         return res.status(200).json({ success: true, prediction: prediction.trim() });
     }
 
-    // ---- ЛИЧНОЕ (любовь, отношения, здоровье) ----
+    // ---- ЛИЧНОЕ ----
     if (query.includes('любов') || query.includes('отношен') || query.includes('девушк') || query.includes('парень') || query.includes('здоров')) {
         const prediction = `
 🔮 **ОРУЖИЕ ОРАКУЛА**
@@ -100,13 +100,13 @@ export default async function handler(req, res) {
         return res.status(200).json({ success: true, prediction: prediction.trim() });
     }
 
-    // ---- ОБЩИЙ СЛУЧАЙ (если тема не распознана) ----
+    // ---- ОБЩИЙ СЛУЧАЙ ----
     const prediction = `
 🔮 **ОРУЖИЕ ОРАКУЛА**
 
 **Ответ:** НЕТ, вопрос не распознан.
 
-**Основание:** для точного анализа уточните тему (война, бизнес, спорт, личное, животные, вино).
+**Основание:** уточните тему (война, бизнес, спорт, личное, вино, животные).
     `;
     return res.status(200).json({ success: true, prediction: prediction.trim() });
 }
