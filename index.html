@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>HM&amp;GO — Оракул</title>
+    <title>HM&amp;GO — Теория игр Оракул</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -158,8 +158,8 @@
 
     <div id="ru-content" class="lang-content active">
         <div class="hero">
-            <h1>Game Theory Oracle</h1>
-            <div class="subhead">Спросите у предсказателя, основанного на теории игр, истории и культурных факторах</div>
+            <h1>Теория игр Оракул</h1>
+            <div class="subhead">Предсказания на основе теории игр, истории и культуры</div>
         </div>
         <div class="intro-text">
             <p>🔮 <strong>Что это?</strong> Система, которая анализирует вашу ситуацию через призму теории игр, исторических аналогий и культурно-религиозных особенностей. Вы получаете прогноз с доверительной вероятностью 80-98% (остальное — абсолютная непредсказуемость).</p>
@@ -174,7 +174,7 @@
     <div id="en-content" class="lang-content">
         <div class="hero">
             <h1>Game Theory Oracle</h1>
-            <div class="subhead">Ask the predictor based on game theory, history and cultural factors</div>
+            <div class="subhead">Predictions based on game theory, history and culture</div>
         </div>
         <div class="intro-text">
             <p>🔮 <strong>What is this?</strong> A system that analyzes your situation through game theory, historical analogies and cultural-religious features. You get a forecast with 80-98% confidence (the rest is absolute unpredictability).</p>
@@ -190,36 +190,36 @@
     <div class="payment-module">
         <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
             <div style="flex: 1; min-width: 280px; background: rgba(255,255,255,0.4); backdrop-filter: blur(4px); border-radius: 2rem; padding: 1.5rem; border: 1px solid rgba(193,123,90,0.3);">
-                <h3 style="color: #c17b5a; text-align: center;">💳 <span data-i18n="payment_fiat_title">Обычные деньги</span></h3>
-                <p style="text-align: center; font-size: 0.9rem;" data-i18n="payment_fiat_desc">Visa, Mastercard, Apple Pay, Google Pay</p>
+                <h3 style="color: #c17b5a; text-align: center;">💳 <span class="i18n" data-key="payment_fiat_title">Обычные деньги</span></h3>
+                <p style="text-align: center; font-size: 0.9rem;"><span class="i18n" data-key="payment_fiat_desc">Visa, Mastercard, Apple Pay, Google Pay</span></p>
                 <div style="text-align: center; margin: 1rem 0;">
-                    <label style="font-weight: bold;" data-i18n="payment_amount">Сумма (€): </label>
+                    <label style="font-weight: bold;"><span class="i18n" data-key="payment_amount">Сумма (€):</span></label>
                     <input type="number" id="fiat-amount" value="10" min="1" step="1" style="width: 120px; padding: 0.3rem; border-radius: 2rem; border: 1px solid #c17b5a;">
                 </div>
                 <div style="text-align: center;">
-                    <button id="fiat-pay-btn" class="big-btn" style="background: #2c5f2d; font-size: 1rem; padding: 0.6rem 1.5rem;" data-i18n="payment_fiat_btn">💳 Оплатить картой</button>
+                    <button id="fiat-pay-btn" class="big-btn" style="background: #2c5f2d; font-size: 1rem; padding: 0.6rem 1.5rem;"><span class="i18n" data-key="payment_fiat_btn">💳 Оплатить картой</span></button>
                 </div>
-                <p style="font-size: 0.7rem; text-align: center; margin-top: 0.8rem;" data-i18n="payment_fiat_currencies">Принимаем: евро, доллары, франки, йены, юани</p>
+                <p style="font-size: 0.7rem; text-align: center; margin-top: 0.8rem;"><span class="i18n" data-key="payment_fiat_currencies">Принимаем: евро, доллары, франки, йены, юани</span></p>
             </div>
             <div style="flex: 1; min-width: 280px; background: rgba(255,255,255,0.4); backdrop-filter: blur(4px); border-radius: 2rem; padding: 1.5rem; border: 1px solid rgba(193,123,90,0.3);">
-                <h3 style="color: #c17b5a; text-align: center;">🪙 <span data-i18n="payment_crypto_title">Цифровые деньги</span></h3>
-                <p style="text-align: center; font-size: 0.9rem;" data-i18n="payment_crypto_desc">Bitcoin, Ethereum, USDT, и 350+ других</p>
+                <h3 style="color: #c17b5a; text-align: center;">🪙 <span class="i18n" data-key="payment_crypto_title">Цифровые деньги</span></h3>
+                <p style="text-align: center; font-size: 0.9rem;"><span class="i18n" data-key="payment_crypto_desc">Bitcoin, Ethereum, USDT, и 350+ других</span></p>
                 <div style="text-align: center; margin: 1rem 0;">
-                    <label style="font-weight: bold;" data-i18n="payment_amount">Сумма (€): </label>
+                    <label style="font-weight: bold;"><span class="i18n" data-key="payment_amount">Сумма (€):</span></label>
                     <input type="number" id="crypto-amount" value="10" min="1" step="1" style="width: 120px; padding: 0.3rem; border-radius: 2rem; border: 1px solid #c17b5a;">
                 </div>
                 <div style="text-align: center;">
-                    <button id="crypto-pay-btn" class="big-btn" style="background: #2c5f2d; font-size: 1rem; padding: 0.6rem 1.5rem;" data-i18n="payment_crypto_btn">🪙 Оплатить криптой</button>
+                    <button id="crypto-pay-btn" class="big-btn" style="background: #2c5f2d; font-size: 1rem; padding: 0.6rem 1.5rem;"><span class="i18n" data-key="payment_crypto_btn">🪙 Оплатить криптой</span></button>
                 </div>
-                <p style="font-size: 0.7rem; text-align: center; margin-top: 0.8rem;" data-i18n="payment_crypto_note">Клиент выбирает валюту на странице оплаты</p>
+                <p style="font-size: 0.7rem; text-align: center; margin-top: 0.8rem;"><span class="i18n" data-key="payment_crypto_note">Клиент выбирает валюту на странице оплаты</span></p>
             </div>
         </div>
         <div style="margin-top: 2rem; padding: 1.2rem; background: rgba(193,123,90,0.1); border-radius: 2rem; border-left: 4px solid #c17b5a;">
             <p style="font-size: 1rem; color: #5f4e47; margin: 0; text-align: center; line-height: 1.4;">
-                📄 <strong data-i18n="payment_note_title">Индивидуальные условия</strong><br>
-                <span data-i18n="payment_note_text">Для крупных сделок, корпоративных заказов или нестандартных условий, пожалуйста, </span>
-                <a href="#contact" style="color: #c17b5a; text-decoration: underline; font-weight: 600;" data-i18n="payment_note_link">свяжитесь с нами</a>
-                <span data-i18n="payment_note_text2"> для выставления персонального инвойса и согласования деталей.</span>
+                📄 <strong><span class="i18n" data-key="payment_note_title">Индивидуальные условия</span></strong><br>
+                <span class="i18n" data-key="payment_note_text">Для крупных сделок, корпоративных заказов или нестандартных условий, пожалуйста, </span>
+                <a href="#contact" style="color: #c17b5a; text-decoration: underline; font-weight: 600;"><span class="i18n" data-key="payment_note_link">свяжитесь с нами</span></a>
+                <span class="i18n" data-key="payment_note_text2"> для выставления персонального инвойса и согласования деталей.</span>
             </p>
         </div>
     </div>
@@ -228,7 +228,7 @@
     <!-- ==================== КОНТАКТЫ ==================== -->
     <section id="contact" class="section active">
         <div class="contact-section">
-            <h2 style="font-size: 2.5rem; font-weight: 300; color: #c17b5a;" data-i18n="contact_title">Свяжитесь с нами</h2>
+            <h2 style="font-size: 2.5rem; font-weight: 300; color: #c17b5a;"><span class="i18n" data-key="contact_title">Свяжитесь с нами</span></h2>
             <div class="contact-info">
                 <div class="contact-row">
                     <a href="tel:+35799453575" class="contact-item">📞 +357 99 453575</a>
@@ -248,27 +248,27 @@
                     <a href="https://t.me/RBartsalonBot" target="_blank" class="contact-item">🤖 @RBartsalonBot</a>
                 </div>
             </div>
-            <p style="margin-top: 2rem; font-size: 1.3rem;" data-i18n="contact_note">Мы открыты для диалога и новых проектов.</p>
+            <p style="margin-top: 2rem; font-size: 1.3rem;"><span class="i18n" data-key="contact_note">Мы открыты для диалога и новых проектов.</span></p>
         </div>
     </section>
     <!-- ==================== КОНЕЦ КОНТАКТОВ ==================== -->
 
     <footer>
         <div id="footer-ru" style="display: block;">
-            <p>© HM&amp;GO — предсказательная система</p>
+            <p>© HM&amp;GO — <span class="i18n" data-key="footer_tagline">предсказательная система</span></p>
             <p>
-                <a href="privacy.html">Политика конфиденциальности</a> |
-                <a href="terms.html">Условия использования</a> |
+                <a href="privacy.html"><span class="i18n" data-key="footer_privacy">Политика конфиденциальности</span></a> |
+                <a href="terms.html"><span class="i18n" data-key="footer_terms">Условия использования</span></a> |
                 <a href="robots.txt" target="_blank">robots.txt</a> |
                 <a href="sitemap.xml" target="_blank">sitemap.xml</a> |
                 <a href="humans.txt" target="_blank">humans.txt</a>
             </p>
         </div>
         <div id="footer-en" style="display: none;">
-            <p>© HM&amp;GO — prediction system</p>
+            <p>© HM&amp;GO — <span class="i18n" data-key="footer_tagline">prediction system</span></p>
             <p>
-                <a href="privacy.html">Privacy Policy</a> |
-                <a href="terms.html">Terms of Use</a> |
+                <a href="privacy.html"><span class="i18n" data-key="footer_privacy">Privacy Policy</span></a> |
+                <a href="terms.html"><span class="i18n" data-key="footer_terms">Terms of Use</span></a> |
                 <a href="robots.txt" target="_blank">robots.txt</a> |
                 <a href="sitemap.xml" target="_blank">sitemap.xml</a> |
                 <a href="humans.txt" target="_blank">humans.txt</a>
@@ -279,36 +279,97 @@
 
 <script>
     let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+    });
     document.getElementById('pwa-install-icon')?.addEventListener('click', async () => {
-        if (deferredPrompt) { deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; }
-        else alert('Для установки: Chrome/Edge — значок ⬇️ в адресной строке');
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            await deferredPrompt.userChoice;
+            deferredPrompt = null;
+        } else {
+            alert('Для установки: Chrome/Edge — значок ⬇️ в адресной строке');
+        }
     });
 
-    function updatePWATexts(lang) {
-        const btn = document.getElementById('pwaButtonText');
-        const tooltip = document.getElementById('pwaTooltip');
-        const installNote = document.getElementById('installNote');
-        if (lang === 'ru') {
-            if (btn) btn.textContent = 'Установить';
-            if (tooltip) tooltip.innerHTML = '💡 Нажмите — установите как приложение.<br>• Chrome/Edge: появится диалог.<br>• iPhone: Поделиться → На экран «Домой».';
-            if (installNote) installNote.textContent = '✅ Нажмите на иконку монитора со стрелкой в адресной строке, чтобы установить приложение. На iPhone: Поделиться → На экран «Домой».';
-        } else {
-            if (btn) btn.textContent = 'Install';
-            if (tooltip) tooltip.innerHTML = '💡 Click — install as app.<br>• Chrome/Edge: dialog appears.<br>• iPhone: Share → Add to Home Screen.';
-            if (installNote) installNote.textContent = '✅ Click the monitor icon with a down arrow in the address bar to install the app. On iPhone: Share → Add to Home Screen.';
+    // ============================================================
+    // ПЕРЕВОДЫ
+    // ============================================================
+    const translations = {
+        ru: {
+            payment_fiat_title: 'Обычные деньги',
+            payment_fiat_desc: 'Visa, Mastercard, Apple Pay, Google Pay',
+            payment_amount: 'Сумма (€):',
+            payment_fiat_btn: '💳 Оплатить картой',
+            payment_fiat_currencies: 'Принимаем: евро, доллары, франки, йены, юани',
+            payment_crypto_title: 'Цифровые деньги',
+            payment_crypto_desc: 'Bitcoin, Ethereum, USDT, и 350+ других',
+            payment_crypto_btn: '🪙 Оплатить криптой',
+            payment_crypto_note: 'Клиент выбирает валюту на странице оплаты',
+            payment_note_title: 'Индивидуальные условия',
+            payment_note_text: 'Для крупных сделок, корпоративных заказов или нестандартных условий, пожалуйста, ',
+            payment_note_link: 'свяжитесь с нами',
+            payment_note_text2: ' для выставления персонального инвойса и согласования деталей.',
+            contact_title: 'Свяжитесь с нами',
+            contact_note: 'Мы открыты для диалога и новых проектов.',
+            footer_tagline: 'предсказательная система',
+            footer_privacy: 'Политика конфиденциальности',
+            footer_terms: 'Условия использования'
+        },
+        en: {
+            payment_fiat_title: 'Fiat Money',
+            payment_fiat_desc: 'Visa, Mastercard, Apple Pay, Google Pay',
+            payment_amount: 'Amount (€):',
+            payment_fiat_btn: '💳 Pay with card',
+            payment_fiat_currencies: 'We accept: EUR, USD, CHF, JPY, CNY',
+            payment_crypto_title: 'Cryptocurrency',
+            payment_crypto_desc: 'Bitcoin, Ethereum, USDT, and 350+ others',
+            payment_crypto_btn: '🪙 Pay with crypto',
+            payment_crypto_note: 'Client chooses currency on payment page',
+            payment_note_title: 'Custom terms',
+            payment_note_text: 'For large deals, corporate orders or custom conditions, please ',
+            payment_note_link: 'contact us',
+            payment_note_text2: ' for a personal invoice and details.',
+            contact_title: 'Contact us',
+            contact_note: 'We are open for dialogue and new projects.',
+            footer_tagline: 'prediction system',
+            footer_privacy: 'Privacy Policy',
+            footer_terms: 'Terms of Use'
         }
-    }
+    };
 
     function setLanguage(lang) {
-        document.getElementById('ru-content').classList.toggle('active', lang === 'ru');
-        document.getElementById('en-content').classList.toggle('active', lang === 'en');
+        document.getElementById('ru-content').style.display = lang === 'ru' ? 'block' : 'none';
+        document.getElementById('en-content').style.display = lang === 'en' ? 'block' : 'none';
+
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.lang === lang);
         });
-        updatePWATexts(lang);
-        document.getElementById('footer-ru').style.display = (lang === 'ru') ? 'block' : 'none';
-        document.getElementById('footer-en').style.display = (lang === 'en') ? 'block' : 'none';
+
+        document.querySelectorAll('.i18n').forEach(el => {
+            const key = el.dataset.key;
+            if (translations[lang] && translations[lang][key]) {
+                el.textContent = translations[lang][key];
+            }
+        });
+
+        const pwaBtn = document.getElementById('pwaButtonText');
+        const pwaTooltip = document.getElementById('pwaTooltip');
+        const installNote = document.getElementById('installNote');
+        if (lang === 'ru') {
+            if (pwaBtn) pwaBtn.textContent = 'Установить';
+            if (pwaTooltip) pwaTooltip.innerHTML = '💡 Нажмите — установите как приложение.<br>• Chrome/Edge: появится диалог.<br>• iPhone: Поделиться → На экран «Домой».';
+            if (installNote) installNote.textContent = '✅ Нажмите на иконку монитора со стрелкой в адресной строке, чтобы установить приложение. На iPhone: Поделиться → На экран «Домой».';
+        } else {
+            if (pwaBtn) pwaBtn.textContent = 'Install';
+            if (pwaTooltip) pwaTooltip.innerHTML = '💡 Click — install as app.<br>• Chrome/Edge: dialog appears.<br>• iPhone: Share → Add to Home Screen.';
+            if (installNote) installNote.textContent = '✅ Click the monitor icon with a down arrow in the address bar to install the app. On iPhone: Share → Add to Home Screen.';
+        }
+
+        document.getElementById('footer-ru').style.display = lang === 'ru' ? 'block' : 'none';
+        document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none';
+
         localStorage.setItem('hmgo_lang', lang);
     }
 
@@ -320,7 +381,9 @@
         btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
     });
 
-    // ==================== ПЛАТЁЖНЫЙ МОДУЛЬ ====================
+    // ============================================================
+    // ПЛАТЁЖНЫЙ МОДУЛЬ
+    // ============================================================
     document.getElementById('fiat-pay-btn')?.addEventListener('click', function() {
         const amount = document.getElementById('fiat-amount').value;
         alert(`💳 Оплата картой: €${amount}\n\nДля крупных сделок свяжитесь с нами.`);
@@ -361,7 +424,6 @@
         }
     });
 
-    // Плавная прокрутка к контактам
     document.querySelector('a[href="#contact"]')?.addEventListener('click', function(e) {
         e.preventDefault();
         const target = document.getElementById('contact');
