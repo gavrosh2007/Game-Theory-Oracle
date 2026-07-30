@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="Content-Security-Policy" content="frame-src https://www.youtube.com https://nowpayments.io https://form.typeform.com/">
     <title>HM&amp;GO — Опросник</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -98,7 +99,6 @@
                     <label>Есть ли у вас дополнительные данные, которые могут повлиять на прогноз?</label>
                     <textarea name="extra" rows="1" placeholder="Например: слухи, инсайды, личные наблюдения"></textarea>
                 </div>
-                <!-- ===== КНОПКА ТЕПЕРЬ ПЕРЕНАПРАВЛЯЕТ НА ГЛАВНУЮ ===== -->
                 <a href="index.html" class="submit-btn">🔮 Получить прогноз</a>
             </form>
             <div id="resultRu" class="result-box"></div>
@@ -154,7 +154,6 @@
                     <label>Do you have any additional data that could affect the forecast?</label>
                     <textarea name="extra" rows="1" placeholder="e.g.: rumors, insider info, personal observations"></textarea>
                 </div>
-                <!-- ===== КНОПКА ТЕПЕРЬ ПЕРЕНАПРАВЛЯЕТ НА ГЛАВНУЮ ===== -->
                 <a href="index.html" class="submit-btn">🔮 Get prediction</a>
             </form>
             <div id="resultEn" class="result-box"></div>
@@ -175,8 +174,6 @@
 </div>
 
 <script>
-    // Удалены все обработчики отправки формы, так как кнопка теперь ссылка.
-    // Переключение языка оставлено без изменений.
     function setLanguage(lang) {
         document.getElementById('ru-form').classList.toggle('active', lang === 'ru');
         document.getElementById('en-form').classList.toggle('active', lang === 'en');
