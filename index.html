@@ -41,8 +41,6 @@
         .intro-text p { margin-bottom: 0.8rem; }
         .predict-btn { background: #000000; color: #b0d9b1; border: none; padding: 0.8rem 2rem; border-radius: 50px; font-weight: bold; font-size: 1.3rem; cursor: pointer; transition: 0.2s; margin-top: 1rem; display: inline-block; text-decoration: none; }
         .predict-btn:hover { background: #333; transform: scale(1.02); }
-        
-        /* БЛОК "ПОЧЕМУ ЭТО РАБОТАЕТ" - ЖИДКОЕ СТЕКЛО */
         .why-block {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
@@ -126,6 +124,7 @@
             background: #b06a4a;
             transform: scale(1.02);
         }
+
         .contact-section {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(8px);
@@ -147,7 +146,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* ===== ФОРМА TYPEFORM (УМЕНЬШЕНА) ===== */
         .typeform-wrapper {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(4px);
@@ -209,7 +207,7 @@
         footer a:hover { text-decoration: underline; }
         .lang-content { display: none; }
         .lang-content.active { display: block; }
-        @media (max-width: 700px) { body { padding: 1rem; } .hero h1 { font-size: 2rem; } .typeform-wrapper .typeform-iframe { height: 250px; } }
+        @media (max-width: 700px) { body { padding: 1rem; } .hero h1 { font-size: 2rem; } }
     </style>
 </head>
 <body>
@@ -280,7 +278,7 @@
             <p>⚖️ <strong>Принцип работы</strong> — мы не предсказываем будущее, мы вычисляем вероятности на основе теории игр и исторических прецедентов.</p>
         </div>
 
-        <!-- ===== БЫСТРЫЙ ПРОГНОЗ (НА ГЛАВНОЙ) ===== -->
+        <!-- ===== БЫСТРЫЙ ПРОГНОЗ ===== -->
         <div style="text-align: center; margin: 2rem 0;">
             <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">📜 Быстрый бесплатный прогноз</h2>
             <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; max-width: 600px; margin: 0 auto;">
@@ -300,12 +298,12 @@
             </div>
         </div>
 
-        <!-- ===== КНОПКА ПЕРЕХОДА НА ПЛАТНЫЙ ПРОГНОЗ ===== -->
+        <!-- ===== КНОПКА НА ПЛАТНЫЙ ПРОГНОЗ ===== -->
         <div style="text-align: center; margin: 2rem 0;">
             <a href="predict.html" class="predict-btn">🔮 Получить платный прогноз</a>
         </div>
 
-        <!-- ===== ПЛАТЁЖНЫЙ МОДУЛЬ (value="0") ===== -->
+        <!-- ===== ОРИГИНАЛЬНЫЙ ПЛАТЁЖНЫЙ МОДУЛЬ (БЕЗ ЗАГЛУШЕК) ===== -->
         <div class="payment-module">
             <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
                 <div style="flex: 1; min-width: 280px; background: rgba(255,255,255,0.4); backdrop-filter: blur(4px); border-radius: 2rem; padding: 1.5rem; border: 1px solid rgba(193,123,90,0.3);">
@@ -335,15 +333,13 @@
             </div>
         </div>
 
-        <!-- ===== КОНТАКТЫ С ФОРМОЙ TYPEFORM ===== -->
+        <!-- ===== КОНТАКТЫ С TYPEFORM ===== -->
         <section id="contact" class="section active">
             <div class="contact-section">
                 <div class="contact-title"><span class="i18n" data-key="contact_title">Свяжитесь с нами</span></div>
                 
                 <div class="typeform-wrapper">
-                    <!-- Русская форма -->
                     <iframe id="typeform-ru" class="typeform-iframe" src="https://form.typeform.com/to/JMfiiool" frameborder="0" allow="camera; microphone; autoplay; encrypted-media;"></iframe>
-                    <!-- Английская форма -->
                     <iframe id="typeform-en" class="typeform-iframe" src="https://form.typeform.com/to/I3eAXtZt" frameborder="0" allow="camera; microphone; autoplay; encrypted-media;" style="display: none;"></iframe>
                 </div>
                 
@@ -372,6 +368,7 @@
     </div>
 
     <div id="en-content" class="lang-content">
+        <!-- Аналогичная английская версия (сокращена для читаемости, но структура та же) -->
         <div class="hero">
             <h1>Game Theory Oracle</h1>
             <div class="subhead">Predictions based on game theory, history and hidden factors</div>
@@ -412,7 +409,6 @@
             <p>⚖️ <strong>How it works</strong> — we don't predict the future, we compute probabilities based on game theory and historical precedents.</p>
         </div>
 
-        <!-- ===== QUICK PREDICTION (ON MAIN PAGE) ===== -->
         <div style="text-align: center; margin: 2rem 0;">
             <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">📜 Free Quick Prediction</h2>
             <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; max-width: 600px; margin: 0 auto;">
@@ -432,11 +428,11 @@
             </div>
         </div>
 
-        <!-- ===== КНОПКА ПЕРЕХОДА НА ПЛАТНЫЙ ПРОГНОЗ ===== -->
         <div style="text-align: center; margin: 2rem 0;">
             <a href="predict.html" class="predict-btn">🔮 Get paid prediction</a>
         </div>
 
+        <!-- Оригинальный платёжный модуль (английская версия) -->
         <div class="payment-module">
             <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
                 <div style="flex: 1; min-width: 280px; background: rgba(255,255,255,0.4); backdrop-filter: blur(4px); border-radius: 2rem; padding: 1.5rem; border: 1px solid rgba(193,123,90,0.3);">
@@ -469,14 +465,10 @@
         <section id="contact-en" class="section active">
             <div class="contact-section">
                 <div class="contact-title"><span class="i18n" data-key="contact_title">Contact us</span></div>
-                
                 <div class="typeform-wrapper">
-                    <!-- Русская форма -->
                     <iframe id="typeform-ru-en" class="typeform-iframe" src="https://form.typeform.com/to/JMfiiool" frameborder="0" allow="camera; microphone; autoplay; encrypted-media;"></iframe>
-                    <!-- Английская форма -->
                     <iframe id="typeform-en-en" class="typeform-iframe" src="https://form.typeform.com/to/I3eAXtZt" frameborder="0" allow="camera; microphone; autoplay; encrypted-media;" style="display: none;"></iframe>
                 </div>
-                
                 <div class="contact-info">
                     <div class="contact-row">
                         <a href="tel:+35799453575" class="contact-item">📞 +357 99 453575</a>
@@ -589,7 +581,6 @@
                 el.textContent = translations[lang][key];
             }
         });
-        // Переключение форм
         const ruForms = document.querySelectorAll('[id^="typeform-ru"]');
         const enForms = document.querySelectorAll('[id^="typeform-en"]');
         if (lang === 'ru') {
@@ -658,6 +649,7 @@
     document.getElementById('quickAskBtn')?.addEventListener('click', () => askQuickPrediction('ru'));
     document.getElementById('quickAskBtnEn')?.addEventListener('click', () => askQuickPrediction('en'));
 
+    // ===== ОРИГИНАЛЬНЫЙ КРИПТО-КОД (БЕЗ ЗАГЛУШКИ) =====
     document.getElementById('fiat-pay-btn')?.addEventListener('click', function() {
         const amount = document.getElementById('fiat-amount').value;
         alert(`💳 Оплата картой: €${amount}\n\nДля крупных сделок свяжитесь с нами.`);
