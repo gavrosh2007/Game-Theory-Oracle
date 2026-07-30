@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta http-equiv="Content-Security-Policy" content="frame-src https://www.youtube.com https://nowpayments.io https://form.typeform.com/">
     <title>HM&amp;GO — Теория игр Оракул</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -42,6 +41,8 @@
         .intro-text p { margin-bottom: 0.8rem; }
         .predict-btn { background: #000000; color: #b0d9b1; border: none; padding: 0.8rem 2rem; border-radius: 50px; font-weight: bold; font-size: 1.3rem; cursor: pointer; transition: 0.2s; margin-top: 1rem; display: inline-block; text-decoration: none; }
         .predict-btn:hover { background: #333; transform: scale(1.02); }
+        .predict-btn.clear-btn { background: #c0392b; color: white; padding: 0.6rem 1.5rem; font-size: 1rem; }
+        .predict-btn.clear-btn:hover { background: #a93226; }
         .why-block {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
@@ -279,12 +280,13 @@
             <p>⚖️ <strong>Принцип работы</strong> — мы не предсказываем будущее, мы вычисляем вероятности на основе теории игр и исторических прецедентов.</p>
         </div>
 
-        <!-- ===== БЫСТРЫЙ ПРОГНОЗ (НА ГЛАВНОЙ) ===== -->
+        <!-- ===== БЫСТРЫЙ ПРОГНОЗ (С КНОПКОЙ ОЧИСТКИ) ===== -->
         <div style="text-align: center; margin: 2rem 0;">
             <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">📜 Быстрый бесплатный прогноз</h2>
             <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; max-width: 600px; margin: 0 auto;">
                 <input type="text" id="quickQuestion" placeholder="Введите вопрос..." style="flex: 1; min-width: 200px; padding: 0.8rem; border-radius: 60px; border: 1px solid #c17b5a; font-size: 1rem; background: rgba(255,255,255,0.8);">
                 <button id="quickAskBtn" class="predict-btn" style="font-size: 1rem; padding: 0.6rem 1.5rem;">🔮 Спросить</button>
+                <button id="clearHistoryBtn" class="predict-btn clear-btn">🗑️ Очистить</button>
             </div>
             <div id="quickResult" style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(255,255,255,0.15); backdrop-filter: blur(8px); border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.25); display: none; text-align: left;">
                 <div id="quickAnswer" style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;"></div>
@@ -414,6 +416,7 @@
             <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; max-width: 600px; margin: 0 auto;">
                 <input type="text" id="quickQuestionEn" placeholder="Enter your question..." style="flex: 1; min-width: 200px; padding: 0.8rem; border-radius: 60px; border: 1px solid #c17b5a; font-size: 1rem; background: rgba(255,255,255,0.8);">
                 <button id="quickAskBtnEn" class="predict-btn" style="font-size: 1rem; padding: 0.6rem 1.5rem;">🔮 Ask</button>
+                <button id="clearHistoryBtnEn" class="predict-btn clear-btn">🗑️ Clear</button>
             </div>
             <div id="quickResultEn" style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(255,255,255,0.15); backdrop-filter: blur(8px); border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.25); display: none; text-align: left;">
                 <div id="quickAnswerEn" style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;"></div>
@@ -645,8 +648,28 @@
         }
     }
 
+    function clearHistory(lang) {
+        const resultDiv = lang === 'ru' ? document.getElementById('quickResult') : document.getElementById('quickResultEn');
+        const answerEl = lang === 'ru' ? document.getElementById('quickAnswer') : document.getElementById('quickAnswerEn');
+        const explanationEl = lang === 'ru' ? document.getElementById('quickExplanation') : document.getElementById('quickExplanationEn');
+        const probText = lang === 'ru' ? document.getElementById('quickProbText') : document.getElementById('quickProbTextEn');
+        const probFill = lang === 'ru' ? document.getElementById('quickProbFill') : document.getElementById('quickProbFillEn');
+        const adviceEl = lang === 'ru' ? document.getElementById('quickAdvice') : document.getElementById('quickAdviceEn');
+        const input = lang === 'ru' ? document.getElementById('quickQuestion') : document.getElementById('quickQuestionEn');
+
+        answerEl.textContent = '';
+        explanationEl.textContent = '';
+        probText.textContent = lang === 'ru' ? 'Вероятность: 0%' : 'Probability: 0%';
+        probFill.style.width = '0%';
+        adviceEl.textContent = '';
+        resultDiv.style.display = 'none';
+        input.value = '';
+    }
+
     document.getElementById('quickAskBtn')?.addEventListener('click', () => askQuickPrediction('ru'));
     document.getElementById('quickAskBtnEn')?.addEventListener('click', () => askQuickPrediction('en'));
+    document.getElementById('clearHistoryBtn')?.addEventListener('click', () => clearHistory('ru'));
+    document.getElementById('clearHistoryBtnEn')?.addEventListener('click', () => clearHistory('en'));
 
     document.getElementById('fiat-pay-btn')?.addEventListener('click', function() {
         const amount = document.getElementById('fiat-amount').value;
