@@ -28,7 +28,8 @@
         .form-group { margin-bottom: 1rem; }
         label { display: block; margin-bottom: 0.3rem; font-weight: bold; }
         input, select, textarea { width: 100%; padding: 0.5rem; border-radius: 1rem; border: none; background: rgba(255,255,255,0.8); color: #000; }
-        .submit-btn { background: #000000; color: #b0d9b1; border: none; padding: 0.8rem 2rem; border-radius: 2rem; font-weight: bold; font-size: 1.2rem; cursor: pointer; margin-top: 1rem; width: 100%; }
+        .submit-btn { background: #000000; color: #b0d9b1; border: none; padding: 0.8rem 2rem; border-radius: 2rem; font-weight: bold; font-size: 1.2rem; cursor: pointer; margin-top: 1rem; width: 100%; display: inline-block; text-align: center; text-decoration: none; }
+        .submit-btn:hover { background: #333; transform: scale(1.02); }
         .result-box { background: #000000; color: #b0d9b1; padding: 1.5rem; border-radius: 1.5rem; margin-top: 2rem; display: none; white-space: pre-wrap; }
         .home-btn { background: #000000; color: #b0d9b1; border: none; padding: 0.6rem 1.5rem; border-radius: 2rem; cursor: pointer; font-weight: bold; margin-top: 1rem; display: inline-block; text-decoration: none; text-align: center; }
         footer { text-align: center; margin-top: 2rem; font-size: 0.85rem; background: rgba(255,255,255,0.3); backdrop-filter: blur(4px); padding: 1.5rem; border-radius: 2rem; }
@@ -97,7 +98,8 @@
                     <label>Есть ли у вас дополнительные данные, которые могут повлиять на прогноз?</label>
                     <textarea name="extra" rows="1" placeholder="Например: слухи, инсайды, личные наблюдения"></textarea>
                 </div>
-                <button type="button" class="submit-btn" id="submitRu">🔮 Получить прогноз</button>
+                <!-- ===== КНОПКА ТЕПЕРЬ ПЕРЕНАПРАВЛЯЕТ НА ГЛАВНУЮ ===== -->
+                <a href="index.html" class="submit-btn">🔮 Получить прогноз</a>
             </form>
             <div id="resultRu" class="result-box"></div>
             <div style="text-align: center; margin-top: 1rem;">
@@ -152,7 +154,8 @@
                     <label>Do you have any additional data that could affect the forecast?</label>
                     <textarea name="extra" rows="1" placeholder="e.g.: rumors, insider info, personal observations"></textarea>
                 </div>
-                <button type="button" class="submit-btn" id="submitEn">🔮 Get prediction</button>
+                <!-- ===== КНОПКА ТЕПЕРЬ ПЕРЕНАПРАВЛЯЕТ НА ГЛАВНУЮ ===== -->
+                <a href="index.html" class="submit-btn">🔮 Get prediction</a>
             </form>
             <div id="resultEn" class="result-box"></div>
             <div style="text-align: center; margin-top: 1rem;">
@@ -172,35 +175,8 @@
 </div>
 
 <script>
-    async function handleSubmit(formId, resultId, lang) {
-        const form = document.getElementById(formId);
-        const data = {};
-        const inputs = form.querySelectorAll('input, textarea, select');
-        inputs.forEach(inp => { if (inp.name) data[inp.name] = inp.value; });
-        const resultDiv = document.getElementById(resultId);
-        resultDiv.innerText = lang === 'ru' ? 'Обработка запроса...' : 'Processing request...';
-        resultDiv.style.display = 'block';
-
-        try {
-            const response = await fetch('/api/predict', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            const result = await response.json();
-            if (result.success) {
-                resultDiv.innerText = result.prediction;
-            } else {
-                resultDiv.innerText = lang === 'ru' ? 'Ошибка при получении прогноза.' : 'Error receiving prediction.';
-            }
-        } catch (err) {
-            resultDiv.innerText = lang === 'ru' ? 'Сетевая ошибка. Попробуйте позже.' : 'Network error. Try again later.';
-        }
-    }
-
-    document.getElementById('submitRu')?.addEventListener('click', () => handleSubmit('predictFormRu', 'resultRu', 'ru'));
-    document.getElementById('submitEn')?.addEventListener('click', () => handleSubmit('predictFormEn', 'resultEn', 'en'));
-
+    // Удалены все обработчики отправки формы, так как кнопка теперь ссылка.
+    // Переключение языка оставлено без изменений.
     function setLanguage(lang) {
         document.getElementById('ru-form').classList.toggle('active', lang === 'ru');
         document.getElementById('en-form').classList.toggle('active', lang === 'en');

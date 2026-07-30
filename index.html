@@ -146,6 +146,23 @@
             letter-spacing: 0.5px;
             margin-bottom: 1.5rem;
         }
+
+        /* ===== ФОРМА TYPEFORM (УМЕНЬШЕНА) ===== */
+        .typeform-wrapper {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(4px);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .typeform-wrapper .typeform-iframe {
+            width: 100%;
+            height: 275px;
+            border: none;
+            border-radius: 1rem;
+        }
+
         .contact-info {
             display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1.5rem;
         }
@@ -185,13 +202,14 @@
             font-size: 1rem;
             color: #000000;
         }
+
         footer { text-align: center; margin-top: 3rem; color: #000000; font-size: 0.85rem; background: rgba(255,255,255,0.3); backdrop-filter: blur(4px); padding: 1.5rem; border-radius: 2rem; }
         footer p { margin: 0.3rem 0; }
         footer a { color: #000000; text-decoration: none; margin: 0 0.3rem; border-bottom: 1px dotted rgba(0,0,0,0.3); }
         footer a:hover { text-decoration: underline; }
         .lang-content { display: none; }
         .lang-content.active { display: block; }
-        @media (max-width: 700px) { body { padding: 1rem; } .hero h1 { font-size: 2rem; } }
+        @media (max-width: 700px) { body { padding: 1rem; } .hero h1 { font-size: 2rem; } .typeform-wrapper .typeform-iframe { height: 250px; } }
     </style>
 </head>
 <body>
@@ -262,10 +280,32 @@
             <p>⚖️ <strong>Принцип работы</strong> — мы не предсказываем будущее, мы вычисляем вероятности на основе теории игр и исторических прецедентов.</p>
         </div>
 
-        <div style="text-align: center;">
-            <a href="predict.html" class="predict-btn">🔮 Получить прогноз</a>
+        <!-- ===== БЫСТРЫЙ ПРОГНОЗ (НА ГЛАВНОЙ) ===== -->
+        <div style="text-align: center; margin: 2rem 0;">
+            <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">📜 Быстрый бесплатный прогноз</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; max-width: 600px; margin: 0 auto;">
+                <input type="text" id="quickQuestion" placeholder="Введите вопрос..." style="flex: 1; min-width: 200px; padding: 0.8rem; border-radius: 60px; border: 1px solid #c17b5a; font-size: 1rem; background: rgba(255,255,255,0.8);">
+                <button id="quickAskBtn" class="predict-btn" style="font-size: 1rem; padding: 0.6rem 1.5rem;">🔮 Спросить</button>
+            </div>
+            <div id="quickResult" style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(255,255,255,0.15); backdrop-filter: blur(8px); border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.25); display: none; text-align: left;">
+                <div id="quickAnswer" style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;"></div>
+                <div id="quickExplanation" style="color: #3a2c2a; margin-bottom: 0.5rem;"></div>
+                <div id="quickProbability" style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin: 0.5rem 0;">
+                    <span id="quickProbText">Вероятность: 0%</span>
+                    <div style="flex: 1; height: 10px; background: rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden;">
+                        <div id="quickProbFill" style="height: 100%; width: 0%; background: #2c5f2d; border-radius: 10px; transition: width 0.5s;"></div>
+                    </div>
+                </div>
+                <div id="quickAdvice" style="background: rgba(193,123,90,0.2); border-left: 3px solid #c17b5a; padding: 0.8rem 1rem; border-radius: 1rem; margin-top: 0.8rem;"></div>
+            </div>
         </div>
 
+        <!-- ===== КНОПКА ПЕРЕХОДА НА ПЛАТНЫЙ ПРОГНОЗ ===== -->
+        <div style="text-align: center; margin: 2rem 0;">
+            <a href="predict.html" class="predict-btn">🔮 Получить платный прогноз</a>
+        </div>
+
+        <!-- ===== ПЛАТЁЖНЫЙ МОДУЛЬ (value="0") ===== -->
         <div class="payment-module">
             <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
                 <div style="flex: 1; min-width: 280px; background: rgba(255,255,255,0.4); backdrop-filter: blur(4px); border-radius: 2rem; padding: 1.5rem; border: 1px solid rgba(193,123,90,0.3);">
@@ -273,7 +313,7 @@
                     <p style="text-align: center; font-size: 0.9rem;"><span class="i18n" data-key="payment_fiat_desc">Visa, Mastercard, Apple Pay, Google Pay</span></p>
                     <div style="text-align: center; margin: 1rem 0;">
                         <label style="font-weight: bold;"><span class="i18n" data-key="payment_amount">Сумма (€):</span></label>
-                        <input type="number" id="fiat-amount" value="10" min="1" step="1" style="width: 120px; padding: 0.3rem; border-radius: 2rem; border: 1px solid #c17b5a;">
+                        <input type="number" id="fiat-amount" value="0" min="0" step="1" style="width: 120px; padding: 0.3rem; border-radius: 2rem; border: 1px solid #c17b5a;">
                     </div>
                     <div style="text-align: center;">
                         <button id="fiat-pay-btn" class="big-btn" style="background: #2c5f2d; font-size: 1rem; padding: 0.6rem 1.5rem;"><span class="i18n" data-key="payment_fiat_btn">💳 Оплатить картой</span></button>
@@ -285,7 +325,7 @@
                     <p style="text-align: center; font-size: 0.9rem;"><span class="i18n" data-key="payment_crypto_desc">Bitcoin, Ethereum, USDT, и 350+ других</span></p>
                     <div style="text-align: center; margin: 1rem 0;">
                         <label style="font-weight: bold;"><span class="i18n" data-key="payment_amount">Сумма (€):</span></label>
-                        <input type="number" id="crypto-amount" value="10" min="1" step="1" style="width: 120px; padding: 0.3rem; border-radius: 2rem; border: 1px solid #c17b5a;">
+                        <input type="number" id="crypto-amount" value="0" min="0" step="1" style="width: 120px; padding: 0.3rem; border-radius: 2rem; border: 1px solid #c17b5a;">
                     </div>
                     <div style="text-align: center;">
                         <button id="crypto-pay-btn" class="big-btn" style="background: #2c5f2d; font-size: 1rem; padding: 0.6rem 1.5rem;"><span class="i18n" data-key="payment_crypto_btn">🪙 Оплатить криптой</span></button>
@@ -295,9 +335,18 @@
             </div>
         </div>
 
+        <!-- ===== КОНТАКТЫ С ФОРМОЙ TYPEFORM ===== -->
         <section id="contact" class="section active">
             <div class="contact-section">
                 <div class="contact-title"><span class="i18n" data-key="contact_title">Свяжитесь с нами</span></div>
+                
+                <div class="typeform-wrapper">
+                    <!-- Русская форма -->
+                    <iframe id="typeform-ru" class="typeform-iframe" src="https://form.typeform.com/to/JMfiiool" frameborder="0" allow="camera; microphone; autoplay; encrypted-media;"></iframe>
+                    <!-- Английская форма -->
+                    <iframe id="typeform-en" class="typeform-iframe" src="https://form.typeform.com/to/I3eAXtZt" frameborder="0" allow="camera; microphone; autoplay; encrypted-media;" style="display: none;"></iframe>
+                </div>
+                
                 <div class="contact-info">
                     <div class="contact-row">
                         <a href="tel:+35799453575" class="contact-item">📞 +357 99 453575</a>
@@ -363,8 +412,29 @@
             <p>⚖️ <strong>How it works</strong> — we don't predict the future, we compute probabilities based on game theory and historical precedents.</p>
         </div>
 
-        <div style="text-align: center;">
-            <a href="predict.html" class="predict-btn">🔮 Get prediction</a>
+        <!-- ===== QUICK PREDICTION (ON MAIN PAGE) ===== -->
+        <div style="text-align: center; margin: 2rem 0;">
+            <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">📜 Free Quick Prediction</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; max-width: 600px; margin: 0 auto;">
+                <input type="text" id="quickQuestionEn" placeholder="Enter your question..." style="flex: 1; min-width: 200px; padding: 0.8rem; border-radius: 60px; border: 1px solid #c17b5a; font-size: 1rem; background: rgba(255,255,255,0.8);">
+                <button id="quickAskBtnEn" class="predict-btn" style="font-size: 1rem; padding: 0.6rem 1.5rem;">🔮 Ask</button>
+            </div>
+            <div id="quickResultEn" style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(255,255,255,0.15); backdrop-filter: blur(8px); border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.25); display: none; text-align: left;">
+                <div id="quickAnswerEn" style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;"></div>
+                <div id="quickExplanationEn" style="color: #3a2c2a; margin-bottom: 0.5rem;"></div>
+                <div id="quickProbabilityEn" style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin: 0.5rem 0;">
+                    <span id="quickProbTextEn">Probability: 0%</span>
+                    <div style="flex: 1; height: 10px; background: rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden;">
+                        <div id="quickProbFillEn" style="height: 100%; width: 0%; background: #2c5f2d; border-radius: 10px; transition: width 0.5s;"></div>
+                    </div>
+                </div>
+                <div id="quickAdviceEn" style="background: rgba(193,123,90,0.2); border-left: 3px solid #c17b5a; padding: 0.8rem 1rem; border-radius: 1rem; margin-top: 0.8rem;"></div>
+            </div>
+        </div>
+
+        <!-- ===== КНОПКА ПЕРЕХОДА НА ПЛАТНЫЙ ПРОГНОЗ ===== -->
+        <div style="text-align: center; margin: 2rem 0;">
+            <a href="predict.html" class="predict-btn">🔮 Get paid prediction</a>
         </div>
 
         <div class="payment-module">
@@ -374,7 +444,7 @@
                     <p style="text-align: center; font-size: 0.9rem;"><span class="i18n" data-key="payment_fiat_desc">Visa, Mastercard, Apple Pay, Google Pay</span></p>
                     <div style="text-align: center; margin: 1rem 0;">
                         <label style="font-weight: bold;"><span class="i18n" data-key="payment_amount">Amount (€):</span></label>
-                        <input type="number" id="fiat-amount-en" value="10" min="1" step="1" style="width: 120px; padding: 0.3rem; border-radius: 2rem; border: 1px solid #c17b5a;">
+                        <input type="number" id="fiat-amount-en" value="0" min="0" step="1" style="width: 120px; padding: 0.3rem; border-radius: 2rem; border: 1px solid #c17b5a;">
                     </div>
                     <div style="text-align: center;">
                         <button id="fiat-pay-btn-en" class="big-btn" style="background: #2c5f2d; font-size: 1rem; padding: 0.6rem 1.5rem;"><span class="i18n" data-key="payment_fiat_btn">💳 Pay with card</span></button>
@@ -386,7 +456,7 @@
                     <p style="text-align: center; font-size: 0.9rem;"><span class="i18n" data-key="payment_crypto_desc">Bitcoin, Ethereum, USDT, and 350+ others</span></p>
                     <div style="text-align: center; margin: 1rem 0;">
                         <label style="font-weight: bold;"><span class="i18n" data-key="payment_amount">Amount (€):</span></label>
-                        <input type="number" id="crypto-amount-en" value="10" min="1" step="1" style="width: 120px; padding: 0.3rem; border-radius: 2rem; border: 1px solid #c17b5a;">
+                        <input type="number" id="crypto-amount-en" value="0" min="0" step="1" style="width: 120px; padding: 0.3rem; border-radius: 2rem; border: 1px solid #c17b5a;">
                     </div>
                     <div style="text-align: center;">
                         <button id="crypto-pay-btn-en" class="big-btn" style="background: #2c5f2d; font-size: 1rem; padding: 0.6rem 1.5rem;"><span class="i18n" data-key="payment_crypto_btn">🪙 Pay with crypto</span></button>
@@ -399,6 +469,14 @@
         <section id="contact-en" class="section active">
             <div class="contact-section">
                 <div class="contact-title"><span class="i18n" data-key="contact_title">Contact us</span></div>
+                
+                <div class="typeform-wrapper">
+                    <!-- Русская форма -->
+                    <iframe id="typeform-ru-en" class="typeform-iframe" src="https://form.typeform.com/to/JMfiiool" frameborder="0" allow="camera; microphone; autoplay; encrypted-media;"></iframe>
+                    <!-- Английская форма -->
+                    <iframe id="typeform-en-en" class="typeform-iframe" src="https://form.typeform.com/to/I3eAXtZt" frameborder="0" allow="camera; microphone; autoplay; encrypted-media;" style="display: none;"></iframe>
+                </div>
+                
                 <div class="contact-info">
                     <div class="contact-row">
                         <a href="tel:+35799453575" class="contact-item">📞 +357 99 453575</a>
@@ -511,6 +589,16 @@
                 el.textContent = translations[lang][key];
             }
         });
+        // Переключение форм
+        const ruForms = document.querySelectorAll('[id^="typeform-ru"]');
+        const enForms = document.querySelectorAll('[id^="typeform-en"]');
+        if (lang === 'ru') {
+            ruForms.forEach(el => el.style.display = 'block');
+            enForms.forEach(el => el.style.display = 'none');
+        } else {
+            ruForms.forEach(el => el.style.display = 'none');
+            enForms.forEach(el => el.style.display = 'block');
+        }
         updatePWATexts(lang);
         document.getElementById('footer-ru').style.display = (lang === 'ru') ? 'block' : 'none';
         document.getElementById('footer-en').style.display = (lang === 'en') ? 'block' : 'none';
@@ -524,6 +612,51 @@
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
     });
+
+    async function askQuickPrediction(lang) {
+        const input = lang === 'ru' ? document.getElementById('quickQuestion') : document.getElementById('quickQuestionEn');
+        const question = input.value.trim();
+        if (question.length < 3) {
+            alert(lang === 'ru' ? 'Введите вопрос (не менее 3 символов).' : 'Enter a question (at least 3 characters).');
+            return;
+        }
+        const resultDiv = lang === 'ru' ? document.getElementById('quickResult') : document.getElementById('quickResultEn');
+        const answerEl = lang === 'ru' ? document.getElementById('quickAnswer') : document.getElementById('quickAnswerEn');
+        const explanationEl = lang === 'ru' ? document.getElementById('quickExplanation') : document.getElementById('quickExplanationEn');
+        const probText = lang === 'ru' ? document.getElementById('quickProbText') : document.getElementById('quickProbTextEn');
+        const probFill = lang === 'ru' ? document.getElementById('quickProbFill') : document.getElementById('quickProbFillEn');
+        const adviceEl = lang === 'ru' ? document.getElementById('quickAdvice') : document.getElementById('quickAdviceEn');
+        try {
+            const res = await fetch('/api/quick-predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question })
+            });
+            const data = await res.json();
+            if (data.success && data.prediction) {
+                const p = data.prediction;
+                answerEl.textContent = p.answer || 'Ответ не получен.';
+                explanationEl.textContent = p.explanation || '';
+                const prob = p.probability;
+                if (prob !== null && prob !== undefined) {
+                    probText.textContent = `Вероятность: ${prob}%`;
+                    probFill.style.width = Math.min(prob, 100) + '%';
+                } else {
+                    probText.textContent = 'Вероятность не определена';
+                    probFill.style.width = '0%';
+                }
+                adviceEl.textContent = p.advice || 'Следите за развитием событий.';
+                resultDiv.style.display = 'block';
+            } else {
+                alert(lang === 'ru' ? 'Ошибка получения прогноза.' : 'Error getting prediction.');
+            }
+        } catch (e) {
+            alert(lang === 'ru' ? 'Ошибка соединения с сервером.' : 'Network error.');
+        }
+    }
+
+    document.getElementById('quickAskBtn')?.addEventListener('click', () => askQuickPrediction('ru'));
+    document.getElementById('quickAskBtnEn')?.addEventListener('click', () => askQuickPrediction('en'));
 
     document.getElementById('fiat-pay-btn')?.addEventListener('click', function() {
         const amount = document.getElementById('fiat-amount').value;
